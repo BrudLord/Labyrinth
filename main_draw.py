@@ -14,9 +14,9 @@ pygame.display.set_caption('Maze')
 
 con = sqlite3.connect('data_base.db')
 cur = con.cursor()
-pygame.mixer.music.load('Music\\579b2fbcdd508f7.mp3')
+pygame.mixer.music.load('data\\579b2fbcdd508f7.mp3')
 pygame.mixer.music.set_volume(0.2)
-button_sound = pygame.mixer.Sound('Music\\00171.wav')
+button_sound = pygame.mixer.Sound('data\\00171.wav')
 pygame.mixer.Sound.set_volume(button_sound, 0.2)
 
 Main_flag = True
@@ -173,7 +173,7 @@ class MainWindow:
         button4 = Button(70, 40)
         button5 = Button(70, 40)
         button6 = Button(20, 20)
-        BackGround = Background('back\\' + str(count) + '.gif', [0, 0])
+        BackGround = Background('data\\' + str(count) + '.gif', [0, 0])
         display.blit(BackGround.image, BackGround.rect)
         button.draw(20, 100, 'Играть', p)
         button2.draw(20, 150, "Испытания")
