@@ -36,6 +36,7 @@ class Pole(Pra_window):
         self.left = (var.SCREEN_WIDTH - self.cell_size * self.width) // 2
         self.top = var.SCREEN_HEIGHT * 0.1
         self.colors = colors
+        self.win = False
 
     def first_update(self):
         var.screen.fill('black')
@@ -71,6 +72,8 @@ class Pole(Pra_window):
                 pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i]], (x3 + (x2 - x3) // 2, y3 + (y2 - y3) // 2), (x2, y2), self.cell_size // 10)
         self.hero_sprites.draw(var.screen)
         self.all_doors.draw(var.screen)
+        if self.hero.hero_way[-1][1] == 0 and self.hero.hero_way[-1][0] == self.height - 1:
+            self.win = True
 
     def window_event(self, key_press):
         if key_press == pygame.K_LEFT:
@@ -202,7 +205,8 @@ class Hero(pygame.sprite.Sprite):
                     if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][1]] in self.hero_way:
                         self.nazad = True
                     else:
-                        if self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr]:
+                        if (self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] or
+                                self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] == 'n'):
                             self.hero_way.append([self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][-1]])
                             self.nazad = False
                         else:
@@ -214,7 +218,8 @@ class Hero(pygame.sprite.Sprite):
                     if [self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] in self.hero_way:
                         self.nazad = True
                     else:
-                        if self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr]:
+                        if (self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] or
+                                self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] == 'n'):
                             self.hero_way.append([self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')])
                             self.nazad = False
                         else:
