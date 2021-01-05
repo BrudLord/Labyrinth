@@ -4,3 +4,6 @@ class Pra_window:
 
     def update(self):
         pass
+
+    def window_event(self, k):
+        pass
