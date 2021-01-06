@@ -7,6 +7,14 @@ from Main_window import *
 import pygame
 from Music import *
 
+def load_image(name, colorkey=None):
+    fullname = os.path.join('data', name)
+    # если файл не существует, то выходим
+    if not os.path.isfile(fullname):
+        return '0'
+    image = pygame.image.load(fullname)
+    return image
+
 
 def main():
     pygame.init()
@@ -14,6 +22,12 @@ def main():
     Variables.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     Variables.SCREEN_SIZE = Variables.SCREEN_HEIGHT, Variables.SCREEN_WIDTH = [Variables.screen.get_height(),
                                                                                Variables.screen.get_width()]
+    gate_left = load_image('Gate_left.png')
+    gate_left = pygame.transform.scale(gate_left, (Variables.SCREEN_WIDTH // 2, Variables.SCREEN_HEIGHT))
+    gate_reight = load_image('Gate_reight.png')
+    gate_reight = pygame.transform.scale(gate_reight, (int((Variables.SCREEN_WIDTH // 2 + 1) / (gate_reight.get_width() - 310) * gate_reight.get_width()), Variables.SCREEN_HEIGHT))
+    gate_standart_pos = [-gate_reight.get_width() - 5, 0, Variables.SCREEN_WIDTH + 1]
+    gate_pos = [-gate_reight.get_width() - 5, Variables.SCREEN_WIDTH + 1]
     pygame.mixer.music.play(-1)
     clock = pygame.time.Clock()
     '''Я предлагаю основной цикл реализовать в этом файле, а при обновлении приложения вызывать соответствующие 
@@ -37,9 +51,24 @@ def main():
                     pass
                     #event.pos
         if Variables.CHANGE_WINDOW:
-            change_window()
-            Variables.CHANGE_WINDOW = False
+            Variables.GATES_MOVI = 1
+        if Variables.GATES_MOVI == 1:
+            gate_pos[0] += 5
+            gate_pos[1] -= 5
+            if gate_pos[0] >= gate_standart_pos[1]:
+                change_window()
+                Variables.CHANGE_WINDOW = False
+                pygame.display.flip()
+                pygame.time.delay(1000)
+                Variables.GATES_MOVI = -1
+        if Variables.GATES_MOVI == -1:
+            gate_pos[0] -= 5
+            gate_pos[1] += 5
+            if gate_pos[0] <= gate_standart_pos[0]:
+                Variables.GATES_MOVI = 0
         Variables.window.update()
+        var.screen.blit(gate_left, (gate_pos[0], 0))
+        var.screen.blit(gate_reight, (gate_pos[1], 0))
         pygame.display.flip()
         clock.tick(Variables.FPS)
     pygame.quit()
