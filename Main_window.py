@@ -80,6 +80,9 @@ class Button:
                 if text == 'Играть':
                     var.name = 'Предыгровое меню'
                     var.CHANGE_WINDOW = True
+                if text == 'Испытания':
+                    var.name = 'Игра'
+                    var.CHANGE_WINDOW = True
                 if text == 'Выйти':
                     sys.exit(1)
 

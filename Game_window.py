@@ -238,3 +238,20 @@ class Hero(pygame.sprite.Sprite):
                         self.colors_posled[-1] = self.colors_posled[-2]
                     else:
                         self.colors_posled[-1] = next_col(self.colors, self.colors_posled[-1])
+        self.check_for_win()
+
+    def check_for_win(self):
+        if self.hero_way[-1] == [self.size[0] - 1, 0]:
+            self.print_win_text()
+            pygame.display.flip()
+            pygame.time.delay(3000)
+            var.name = 'Главное меню'
+            var.CHANGE_WINDOW = True
+
+    def print_win_text(self, font_color=(255, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=300):
+        im = load_image('zatemnenie.png')
+        im = pygame.transform.scale(im, var.SCREEN_SIZE[::-1])
+        var.screen.blit(im, (0, 0))
+        font_type = pygame.font.Font(font_type, font_size)
+        text = font_type.render('You win', True, font_color)
+        var.screen.blit(text, (var.SCREEN_WIDTH // 2 - text.get_width() // 2, var.SCREEN_HEIGHT // 2 - text.get_height() // 2))

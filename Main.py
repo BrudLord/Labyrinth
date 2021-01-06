@@ -55,7 +55,7 @@ def change_window():
     elif Variables.name == 'Игровое меню':
         Variables.window = Pre_game_setting()
     elif Variables.name == 'Игра':
-        Variables.window = Pole()
+        Variables.window = Pole([6, 5], 3)
     Variables.window.first_update()
 
 
