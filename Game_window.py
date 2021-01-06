@@ -74,6 +74,7 @@ class Pole(Pra_window):
         self.all_doors.draw(var.screen)
         if self.hero.hero_way[-1][1] == 0 and self.hero.hero_way[-1][0] == self.height - 1:
             self.win = True
+        self.hero_sprites.update(-2)
 
     def window_event(self, key_press):
         if key_press == pygame.K_LEFT:
@@ -170,75 +171,78 @@ class Hero(pygame.sprite.Sprite):
         self.size = size
 
     def update(self, napr):
-        if self.travel:
-            if not self.nazad:
-                self.rect.y += (self.hero_way[-1][0] - self.hero_way[-2][0]) * self.height // self.del_put
-                if self.proid_put + 1 == self.del_put:
-                    self.rect.y = self.top + self.hero_way[-1][0] * self.height + self.height // 5 * 2
-                self.rect.x += (self.hero_way[-1][1] - self.hero_way[-2][1]) * self.height // self.del_put
-                if self.proid_put + 1 == self.del_put:
-                    self.rect.x = self.left + self.hero_way[-1][1] * self.height + self.height // 5 * 2
-                self.proid_put += 1
-                if self.proid_put == self.del_put:
-                    self.proid_put = 0
-                    self.travel = False
-            else:
-                self.rect.y += (self.hero_way[-2][0] - self.hero_way[-1][0]) * self.height // self.del_put
-                if self.proid_put + 1 == self.del_put:
-                    self.rect.y = self.top + self.hero_way[-2][0] * self.height + self.height // 5 * 2
-                self.rect.x += (self.hero_way[-2][1] - self.hero_way[-1][1]) * self.height // self.del_put
-                if self.proid_put + 1 == self.del_put:
-                    self.rect.x = self.left + self.hero_way[-2][1] * self.height + self.height // 5 * 2
-                self.proid_put += 1
-                if self.proid_put == self.del_put:
-                    self.proid_put = 0
+        if napr >= -1 or self.travel:
+            if self.travel:
+                if not self.nazad:
+                    self.rect.y += (self.hero_way[-1][0] - self.hero_way[-2][0]) * self.height // self.del_put
+                    if self.proid_put + 1 == self.del_put:
+                        self.rect.y = self.top + self.hero_way[-1][0] * self.height + self.height // 5 * 2
+                    self.rect.x += (self.hero_way[-1][1] - self.hero_way[-2][1]) * self.height // self.del_put
+                    if self.proid_put + 1 == self.del_put:
+                        self.rect.x = self.left + self.hero_way[-1][1] * self.height + self.height // 5 * 2
+                    self.proid_put += 1
+                    if self.proid_put == self.del_put:
+                        self.proid_put = 0
+                        self.travel = False
+                else:
+                    self.rect.y += (self.hero_way[-2][0] - self.hero_way[-1][0]) * self.height // self.del_put
+                    if self.proid_put + 1 == self.del_put:
+                        self.rect.y = self.top + self.hero_way[-2][0] * self.height + self.height // 5 * 2
+                    self.rect.x += (self.hero_way[-2][1] - self.hero_way[-1][1]) * self.height // self.del_put
+                    if self.proid_put + 1 == self.del_put:
+                        self.rect.x = self.left + self.hero_way[-2][1] * self.height + self.height // 5 * 2
+                    self.proid_put += 1
+                    if self.proid_put == self.del_put:
+                        self.proid_put = 0
+                        self.travel = False
+                        del self.hero_way[-1]
+                        del self.colors_posled[-1]
+                        self.nazad = False
+            elif napr == -1:
+                return
+            elif not self.travel:
+                self.travel = True
+                if napr % 2 == 0:
+                    if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][1]] not in self.hero_way[: -2]:
+                        if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][1]] in self.hero_way:
+                            self.nazad = True
+                        else:
+                            if (self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] or
+                                    self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] == 'n'):
+                                self.hero_way.append([self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][-1]])
+                                self.nazad = False
+                            else:
+                                self.travel = False
+                    else:
+                        self.travel = False
+                else:
+                    if [self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] not in self.hero_way[: -2]:
+                        if [self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] in self.hero_way:
+                            self.nazad = True
+                        else:
+                            if (self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] or
+                                    self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] == 'n'):
+                                self.hero_way.append([self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')])
+                                self.nazad = False
+                            else:
+                                self.travel = False
+                    else:
+                        self.travel = False
+                if (self.hero_way[-1][1] >= self.size[-1] or self.hero_way[-1][0] >= self.size[0] or
+                        self.hero_way[-1][1] < 0 or self.hero_way[-1][0] < 0):
                     self.travel = False
                     del self.hero_way[-1]
-                    del self.colors_posled[-1]
                     self.nazad = False
-        elif napr == -1:
-            return
-        elif not self.travel:
-            self.travel = True
-            if napr % 2 == 0:
-                if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][1]] not in self.hero_way[: -2]:
-                    if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][1]] in self.hero_way:
-                        self.nazad = True
-                    else:
-                        if (self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] or
-                                self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] == 'n'):
-                            self.hero_way.append([self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][-1]])
-                            self.nazad = False
-                        else:
-                            self.travel = False
                 else:
-                    self.travel = False
-            else:
-                if [self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] not in self.hero_way[: -2]:
-                    if [self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] in self.hero_way:
-                        self.nazad = True
-                    else:
-                        if (self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] or
-                                self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] == 'n'):
-                            self.hero_way.append([self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')])
-                            self.nazad = False
+                    if not self.nazad and self.travel:
+                        self.colors_posled.append(self.pole[self.hero_way[-2][0]][self.hero_way[-2][1]][napr])
+                        if self.colors_posled[-1] == 'n':
+                            self.colors_posled[-1] = self.colors_posled[-2]
                         else:
-                            self.travel = False
-                else:
-                    self.travel = False
-            if (self.hero_way[-1][1] >= self.size[-1] or self.hero_way[-1][0] >= self.size[0] or
-                    self.hero_way[-1][1] < 0 or self.hero_way[-1][0] < 0):
-                self.travel = False
-                del self.hero_way[-1]
-                self.nazad = False
-            else:
-                if not self.nazad and self.travel:
-                    self.colors_posled.append(self.pole[self.hero_way[-2][0]][self.hero_way[-2][1]][napr])
-                    if self.colors_posled[-1] == 'n':
-                        self.colors_posled[-1] = self.colors_posled[-2]
-                    else:
-                        self.colors_posled[-1] = next_col(self.colors, self.colors_posled[-1])
-        self.check_for_win()
+                            self.colors_posled[-1] = next_col(self.colors, self.colors_posled[-1])
+        elif napr == -2:
+            pygame.display.flip()
+            self.check_for_win()
 
     def check_for_win(self):
         if self.hero_way[-1] == [self.size[0] - 1, 0]:
