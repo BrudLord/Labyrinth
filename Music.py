@@ -7,6 +7,7 @@ pygame.mixer.music.load('data\\579b2fbcdd508f7.mp3')
 pygame.mixer.music.set_volume(0.2)
 button_sound = pygame.mixer.Sound('data\\00171.wav')
 pygame.mixer.Sound.set_volume(button_sound, 0.2)
+Flag = True
 
 
 def Hot_key():

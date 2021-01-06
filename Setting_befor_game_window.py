@@ -2,7 +2,6 @@ from Window import Pra_window
 import pygame
 import Variables as var
 from Music import *
-from functions import *
 
 
 def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
@@ -13,36 +12,31 @@ def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.t
 
 class Pre_game_setting(Pra_window):
     def __init__(self):
-        pass
+        super().__init__()
 
     def first_update(self):
-        global done
-        clock = pygame.time.Clock()
-        input_box1 = InputBox(10, 10, 140, 32)
-        input_box2 = InputBox(10, 52, 140, 32)
-        input_boxes = [input_box1, input_box2]
-        done = False
-        button = Button(80, 40)
-        while not done:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    done = True
-                    quit()
-                for box in input_boxes:
-                    box.handle_event(event)
+        self.input_box1 = InputBox(10, 10, 140, 32)
+        self.input_box2 = InputBox(10, 52, 140, 32)
+        self.input_boxes = [self.input_box1, self.input_box2]
+        self.button = Button(80, 40)
 
-            for box in input_boxes:
-                box.update()
-
-            var.screen.fill((30, 30, 30))
-            for box in input_boxes:
-                box.draw(var.screen)
-            button.draw(10, 100, 'Назад в меню')
-            print_text('Размер лабиринта', 240, 10, (60, 140, 190), font_size=30)
-            print_text('Количество цветов дверей', 240, 52, (60, 140, 190), font_size=30)
-            pygame.display.update()
-            pygame.display.flip()
-            clock.tick(30)
+    def update(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+                quit()
+            for box in self.input_boxes:
+                box.handle_event(event)
+        for box in self.input_boxes:
+            box.update()
+        var.screen.fill((30, 30, 30))
+        for box in self.input_boxes:
+            box.draw(var.screen)
+        self.button.draw(10, 100, 'Назад в меню')
+        print_text('Размер лабиринта', 240, 10, (60, 140, 190), font_size=30)
+        print_text('Количество цветов дверей', 240, 52, (60, 140, 190), font_size=30)
+        pygame.display.update()
+        pygame.display.flip()
 
 
 class InputBox:
@@ -103,9 +97,10 @@ class Button:
                 if click[0] == 1:
                     pygame.mixer.Sound.play(button_sound)
                     pygame.time.delay(150)
+                    # Смена окна
                     if text == 'Назад в меню':
-                        pass
-                        #change_window('Главное меню')
+                        var.name = 'Главное меню'
+                        var.CHANGE_WINDOW = True
             else:
                 pygame.draw.rect(var.screen, self.active_color, (x, y, self.width, self.height))
         else:

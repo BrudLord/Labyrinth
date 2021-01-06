@@ -1,20 +1,23 @@
 from Window import Pra_window
+import sys
 import Variables as var
 import pygame
 from Music import *
-from functions import *
+
 
 count = -1
 
-def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
+
+def print_text(message, x, y, button_width, button_height, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
-    var.screen.blit(text, (x, y))
+    var.screen.blit(text, (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
 
 
 class MainWindow(Pra_window):
     def __init__(self):
-        pass
+        super().__init__()
+        self.standart_button_size = [200, 50]
 
     def first_update(self):
         global count
@@ -23,20 +26,23 @@ class MainWindow(Pra_window):
             count = 0
         else:
             count += 1
-        self.button = Button(70, 40)
-        self.button2 = Button(70, 40)
-        self.button3 = Button(70, 40)
-        self.button4 = Button(70, 40)
-        self.button5 = Button(70, 40)
-        self.button6 = Button(20, 20)
+
+        self.button = Button(*self.standart_button_size)
+        self.button2 = Button(*self.standart_button_size)
+        self.button3 = Button(*self.standart_button_size)
+        self.button4 = Button(*self.standart_button_size)
+        self.button5 = Button(*self.standart_button_size)
+        self.button6 = Button(*self.standart_button_size)
+        self.button7 = Button(20, 20)
         BackGround = Background('data\\' + str(count) + '.gif', [0, 0])
         var.screen.blit(BackGround.image, BackGround.rect)
         self.button.draw(20, 100, 'Играть')
-        self.button2.draw(20, 150, "Испытания")
-        self.button3.draw(20, 200, 'Настройки')
-        self.button4.draw(20, 250, 'Профиль')
-        self.button5.draw(20, 300, 'О игре')
-        self.button6.draw(750, 30, '?')
+        self.button2.draw(20, 150 + self.standart_button_size[1], "Испытания")
+        self.button3.draw(20, 200 + self.standart_button_size[1] * 2, 'Настройки')
+        self.button4.draw(20, 250 + self.standart_button_size[1] * 3, 'Рейтинг')
+        self.button5.draw(20, 300 + self.standart_button_size[1] * 4, 'О игре')
+        self.button6.draw(20, 350 + self.standart_button_size[1] * 5, 'Выйти')
+        self.button7.draw(750, 30, '?')
 
     def update(self):
         global count
@@ -48,11 +54,12 @@ class MainWindow(Pra_window):
         BackGround = Background('data\\' + str(count) + '.gif', [0, 0])
         var.screen.blit(BackGround.image, BackGround.rect)
         self.button.draw(20, 100, 'Играть')
-        self.button2.draw(20, 150, "Испытания")
-        self.button3.draw(20, 200, 'Настройки')
-        self.button4.draw(20, 250, 'Профиль')
-        self.button5.draw(20, 300, 'О игре')
-        self.button6.draw(750, 30, '?')
+        self.button2.draw(20, 150 + self.standart_button_size[1], "Испытания")
+        self.button3.draw(20, 200 + self.standart_button_size[1] * 2, 'Настройки')
+        self.button4.draw(20, 250 + self.standart_button_size[1] * 3, 'Рейтинг')
+        self.button5.draw(20, 300 + self.standart_button_size[1] * 4, 'О игре')
+        self.button6.draw(20, 350 + self.standart_button_size[1] * 5, 'Выйти')
+        self.button7.draw(750, 30, '?')
 
 
 class Button:
@@ -65,19 +72,20 @@ class Button:
     def draw(self, x, y, text, action=None):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
-        if x < mouse[0] < x + self.width:
-            if y < mouse[1] < y + self.height:
-                pygame.draw.rect(var.screen, self.inactive_color, (x, y, self.width, self.height))
-                if click[0] == 1:
-                    pygame.mixer.Sound.play(button_sound)
-                    pygame.time.delay(150)
-                    if text == 'Играть':
-                        change_window('Предыгровое меню')
-            else:
-                pygame.draw.rect(var.screen, self.active_color, (x, y, self.width, self.height))
+        if x < mouse[0] < x + self.width and y < mouse[1] < y + self.height:
+            pygame.draw.rect(var.screen, self.inactive_color, (x, y, self.width, self.height))
+            if click[0] == 1:
+                pygame.mixer.Sound.play(button_sound)
+                pygame.time.delay(150)
+                if text == 'Играть':
+                    var.name = 'Предыгровое меню'
+                    var.CHANGE_WINDOW = True
+                if text == 'Выйти':
+                    sys.exit(1)
+
         else:
             pygame.draw.rect(var.screen, self.active_color, (x, y, self.width, self.height))
-        print_text(text, x + 5, y + 5)
+        print_text(text, x, y, self.width, self.height, font_size=35)
 
 
 class Background(pygame.sprite.Sprite):

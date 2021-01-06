@@ -19,3 +19,5 @@ COLOR_ACTIVE = pygame.Color(41, 150, 150)
 COLOR_INACTIVE = pygame.Color(9, 190, 150)
 pygame.init()
 FONT = pygame.font.Font(None, 32)
+name = 'Главное меню'
+CHANGE_WINDOW = False

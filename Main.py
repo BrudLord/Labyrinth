@@ -1,4 +1,8 @@
 import Variables
+from Game_window import *
+from Setting_window import *
+from Setting_befor_game_window import *
+from Setting_in_game import *
 from Main_window import *
 import pygame
 from Music import *
@@ -32,10 +36,27 @@ def main():
                 if event.button == 1:
                     pass
                     #event.pos
+        if Variables.CHANGE_WINDOW:
+            change_window()
+            Variables.CHANGE_WINDOW = False
         Variables.window.update()
         pygame.display.flip()
         clock.tick(Variables.FPS)
     pygame.quit()
+
+
+def change_window():
+    if Variables.name == 'Главное меню':
+        Variables.window = MainWindow()
+    elif Variables.name == 'Настройки':
+        Variables.window = Setting()
+    elif Variables.name == 'Предыгровое меню':
+        Variables.window = Pre_game_setting()
+    elif Variables.name == 'Игровое меню':
+        Variables.window = Pre_game_setting()
+    elif Variables.name == 'Игра':
+        Variables.window = Pole()
+    Variables.window.first_update()
 
 
 if __name__ == '__main__':
