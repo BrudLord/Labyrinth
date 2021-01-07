@@ -51,6 +51,7 @@ class Pole(Pra_window):
         self.all_doors.draw(var.screen)
 
     def update(self):
+        var.screen.fill('black')
         self.hero_sprites.update(-1)
         self.all_cells_sprites.draw(var.screen)
         for i in range(1, len(self.hero.hero_way)):
@@ -241,14 +242,13 @@ class Hero(pygame.sprite.Sprite):
                         else:
                             self.colors_posled[-1] = next_col(self.colors, self.colors_posled[-1])
         elif napr == -2:
-            pygame.display.flip()
             self.check_for_win()
 
     def check_for_win(self):
         if self.hero_way[-1] == [self.size[0] - 1, 0]:
             self.print_win_text()
             pygame.display.flip()
-            pygame.time.delay(3000)
+            pygame.time.delay(1500)
             var.name = 'Главное меню'
             var.CHANGE_WINDOW = True
 
