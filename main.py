@@ -45,7 +45,7 @@ def main():
                 '''Реализовать методы в классах, которые будут вызываться при различных событиях'''
 
                 if event.type == pygame.KEYDOWN:
-                    Variables.window.window_event(event.key)
+                    Variables.window.window_event(event.key, ev=event)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
