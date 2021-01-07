@@ -35,8 +35,6 @@ class Pre_game_setting(Pra_window):
         self.button.draw(10, 100, 'Назад в меню')
         print_text('Размер лабиринта', 240, 10, (60, 140, 190), font_size=30)
         print_text('Количество цветов дверей', 240, 52, (60, 140, 190), font_size=30)
-        pygame.display.update()
-        pygame.display.flip()
 
 
 class InputBox:

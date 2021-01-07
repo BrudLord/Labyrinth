@@ -59,7 +59,7 @@ class MainWindow(Pra_window):
         self.button4.draw(20, 250 + self.standart_button_size[1] * 3, 'Рейтинг')
         self.button5.draw(20, 300 + self.standart_button_size[1] * 4, 'О игре')
         self.button6.draw(20, 350 + self.standart_button_size[1] * 5, 'Выйти')
-        self.button7.draw(750, 30, '?')
+        self.button7.draw(var.SCREEN_WIDTH - self.button7.width - 20, 20, '?')
 
 
 class Button:
@@ -88,7 +88,10 @@ class Button:
 
         else:
             pygame.draw.rect(var.screen, self.active_color, (x, y, self.width, self.height))
-        print_text(text, x, y, self.width, self.height, font_size=35)
+        if len(text) == 1:
+            print_text(text, x, y, self.width, self.height, font_size=25)
+        else:
+            print_text(text, x, y, self.width, self.height, font_size=35)
 
 
 class Background(pygame.sprite.Sprite):
