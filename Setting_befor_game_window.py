@@ -21,12 +21,6 @@ class Pre_game_setting(Pra_window):
         self.button = Button(80, 40)
 
     def update(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                done = True
-                quit()
-            for box in self.input_boxes:
-                box.handle_event(event)
         for box in self.input_boxes:
             box.update()
         var.screen.fill((30, 30, 30))
@@ -35,6 +29,10 @@ class Pre_game_setting(Pra_window):
         self.button.draw(10, 100, 'Назад в меню')
         print_text('Размер лабиринта', 240, 10, (60, 140, 190), font_size=30)
         print_text('Количество цветов дверей', 240, 52, (60, 140, 190), font_size=30)
+
+    def window_event(self, k):
+        for box in self.input_boxes:
+            box.handle_event(k)
 
 
 class InputBox:
@@ -45,8 +43,8 @@ class InputBox:
         self.txt_surface = var.FONT.render(text, True, self.color)
         self.active = False
 
-    def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
+    def handle_event(self, k):
+        '''if event.type == pygame.MOUSEBUTTONDOWN:
             # If the user clicked on the input_box rect.
             if self.rect.collidepoint(event.pos):
                 # Toggle the active variable.
@@ -54,18 +52,17 @@ class InputBox:
             else:
                 self.active = False
             # Change the current color of the input box.
-            self.color = var.COLOR_ACTIVE if self.active else var.COLOR_INACTIVE
-        if event.type == pygame.KEYDOWN:
-            if self.active:
-                if event.key == pygame.K_RETURN:
-                    print(self.text)
-                    self.text = ''
-                elif event.key == pygame.K_BACKSPACE:
-                    self.text = self.text[:-1]
-                else:
-                    self.text += event.unicode
-                # Re-render the text.
-                self.txt_surface = var.FONT.render(self.text, True, self.color)
+            self.color = var.COLOR_ACTIVE if self.active else var.COLOR_INACTIVE'''
+        if self.active:
+            if pygame.key.name(k) == 'return':
+                self.text = ''
+            elif pygame.key.name(k) == 'backspace':
+                self.text = self.text[:-1]
+            else:
+                if pygame.key.name(k).isalnum():
+                    self.text += pygame.key.name(k)
+            # Re-render the text.
+            self.txt_surface = var.FONT.render(self.text, True, self.color)
 
     def update(self):
         # Resize the box if the text is too long.
