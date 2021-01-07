@@ -42,10 +42,10 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                '''Реализовать методы в классах, которые будут вызываться при различных событиях'''
+                '''Реализовать методы в классах, которые будут вызываться при различных событиях '''
 
                 if event.type == pygame.KEYDOWN:
-                    Variables.window.window_event(event.key, ev=event)
+                    Variables.window.window_event(event.key)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
