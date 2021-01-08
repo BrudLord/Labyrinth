@@ -6,6 +6,7 @@ from Setting_in_game import *
 from Main_window import *
 import pygame
 from Music import *
+from Help import *
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
@@ -49,8 +50,7 @@ def main():
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        pass
-                        #event.pos
+                        Variables.window.mouse_event(event.pos)
         if Variables.CHANGE_WINDOW:
             Variables.GATES_MOVI = 1
             Variables.FPS = 100
@@ -72,8 +72,8 @@ def main():
                 pygame.time.delay(1000)
                 Variables.GATES_MOVI = -1
         elif Variables.GATES_MOVI == -1:
-            gate_pos[0] -= 20
-            gate_pos[1] += 20
+            gate_pos[0] -= 25
+            gate_pos[1] += 25
             if gate_pos[0] <= gate_standart_pos[0]:
                 gate_pos[0] = gate_standart_pos[0]
                 gate_pos[1] = gate_standart_pos[2]
@@ -92,13 +92,15 @@ def change_window():
     if Variables.name == 'Главное меню':
         Variables.window = MainWindow()
     elif Variables.name == 'Настройки':
-        Variables.window = Setting()
+        Variables.window = Settings()
     elif Variables.name == 'Предыгровое меню':
         Variables.window = Pre_game_setting()
     elif Variables.name == 'Игровое меню':
         Variables.window = Pre_game_setting()
     elif Variables.name == 'Игра':
         Variables.window = Pole([6, 5], 3)
+    elif Variables.name == 'Помощь':
+        Variables.window = Help()
     Variables.window.first_update()
 
 

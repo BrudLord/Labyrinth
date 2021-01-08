@@ -22,3 +22,4 @@ FONT = pygame.font.Font(None, 32)
 name = 'Главное меню'
 CHANGE_WINDOW = False
 GATES_MOVI = 0 # -1 - открытие ворот, 0 - стоят, 1 - закрытие ворот
+podskazki = True

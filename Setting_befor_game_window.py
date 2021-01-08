@@ -19,6 +19,7 @@ class Pre_game_setting(Pra_window):
         self.input_box2 = InputBox(10, 52, 140, 32)
         self.input_boxes = [self.input_box1, self.input_box2]
         self.button = Button(80, 40)
+        self.button_play = Button(80, 40)
 
     def update(self):
         for box in self.input_boxes:
@@ -27,12 +28,32 @@ class Pre_game_setting(Pra_window):
         for box in self.input_boxes:
             box.draw(var.screen)
         self.button.draw(10, 100, 'Назад в меню')
+        self.button_play.draw(100, 100, 'Играть')
         print_text('Размер лабиринта', 240, 10, (60, 140, 190), font_size=30)
         print_text('Количество цветов дверей', 240, 52, (60, 140, 190), font_size=30)
+        print_text('Размер лабиринта', 240, 10, (60, 140, 190), font_size=30)
+        print_text('Количество цветов ', 240, 52, (60, 140, 190), font_size=30)
+        print_text('Количество цветов  показывает сколько', 10, 150, (60, 140, 190), font_size=20)
+        print_text('будет различных по цвету дверей в одном лабиринте', 10, 180, (60, 140, 190), font_size=20)
+        print_text('------------------------------------------------------', 10, 190, (250, 140, 200), font_size=30)
+        print_text('Размер лабиринта устанавливает размер игрового поля', 10, 220, (60, 140, 190), font_size=20)
+        print_text('Указывается в формате "x y" где x длинна ,а y высота', 10, 250, (60, 140, 190), font_size=20)
+        print_text('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', 10,  280, (60, 140, 190), font_size=20)
 
     def window_event(self, k):
         for box in self.input_boxes:
             box.handle_event(k)
+
+    def mouse_event(self, pos):
+        # If the user clicked on the input_box rect.
+        for box in self.input_boxes:
+            if box.rect.collidepoint(pos):
+                # Toggle the active variable.
+                box.active = not box.active
+            else:
+                box.active = False
+            # Change the current color of the input box.
+            box.color = var.COLOR_ACTIVE if box.active else var.COLOR_INACTIVE
 
 
 class InputBox:
@@ -44,15 +65,6 @@ class InputBox:
         self.active = False
 
     def handle_event(self, k):
-        '''if event.type == pygame.MOUSEBUTTONDOWN:
-            # If the user clicked on the input_box rect.
-            if self.rect.collidepoint(event.pos):
-                # Toggle the active variable.
-                self.active = not self.active
-            else:
-                self.active = False
-            # Change the current color of the input box.
-            self.color = var.COLOR_ACTIVE if self.active else var.COLOR_INACTIVE'''
         if self.active:
             if pygame.key.name(k) == 'return':
                 self.text = ''

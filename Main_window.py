@@ -83,6 +83,12 @@ class Button:
                 if text == 'Испытания':
                     var.name = 'Игра'
                     var.CHANGE_WINDOW = True
+                if text == 'Настройки':
+                    var.name = 'Настройки'
+                    var.CHANGE_WINDOW = True
+                if text == '?':
+                    var.name = 'Помощь'
+                    var.CHANGE_WINDOW = True
                 if text == 'Выйти':
                     sys.exit(1)
 
