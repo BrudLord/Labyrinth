@@ -197,4 +197,3 @@ def generate_pole(size, colors):
         #[['b', 'r', 's', 's'], ['g', 'b', 's', 'r'], ['r', 'b', 's', 'b'], ['n', 'g', 's', 'b'], ['g', 'r', 's', 'g'],
          #['g', 's', 's', 'r']]]
     return pole, colors
-

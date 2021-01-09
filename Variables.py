@@ -1,8 +1,10 @@
+import sqlite3
+import pygame
+
 FONT_SIZE = 18
-SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 1920, 1080
+SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 500, 500
 FPS = 60
 WIN = False
-FILENAME = 'pole/Pole3.txt'
 POLE_SIZE = [[7, 5], [14, 10], [21, 15]]
 COLOR_VALUE = {
     'r': 'red',
@@ -11,3 +13,14 @@ COLOR_VALUE = {
     'y': 'yellow',
     'o': 'orange'
 }
+FILENAME = 'pole/Pole3.txt'
+CON = sqlite3.connect('data_base.db')
+CUR = CON.cursor()
+COLOR_ACTIVE = pygame.Color(41, 150, 150)
+COLOR_INACTIVE = pygame.Color(9, 190, 150)
+pygame.init()
+FONT = pygame.font.Font(None, 32)
+name = 'Главное меню'
+CHANGE_WINDOW = False
+GATES_MOVI = 0 # -1 - открытие ворот, 0 - стоят, 1 - закрытие ворот
+podskazki = True

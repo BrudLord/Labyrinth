@@ -1,3 +1,5 @@
+import pygame
+
 door_sound = pygame.mixer.Sound('data\\door_05.wav')
 
 

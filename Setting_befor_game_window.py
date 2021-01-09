@@ -17,6 +17,7 @@ class Pre_game_setting(Pra_window):
     def first_update(self):
         self.input_box1 = InputBox(10, 10, 140, 32)
         self.input_box2 = InputBox(10, 52, 140, 32)
+        self.input_box2 = InputBox(10, 52, 140, 32)
         self.input_boxes = [self.input_box1, self.input_box2]
         self.button = Button(80, 40)
 
