@@ -13,6 +13,7 @@ COLOR_VALUE = {
     'y': 'yellow',
     'o': 'orange'
 }
+FILENAME = 'pole/Pole3.txt'
 CON = sqlite3.connect('data_base.db')
 CUR = CON.cursor()
 COLOR_ACTIVE = pygame.Color(41, 150, 150)
