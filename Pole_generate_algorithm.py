@@ -100,10 +100,24 @@ def generate_random_pole(w, h, c, levl): # width, height, col-vo colors, level(1
         b = random.randint(1, 2) # 1 - Вверх, 2 - Вправо
         if b == 1:
             e = random.randint(1, w - 2)
+            if y != h - 1:
+                pole[y][w - x - 1][2] = col[d]
+                pole[y + 1][w - x - 1][0] = col[d]
+                d += 1
+                if d == c:
+                    d = 0
+                y += 1
         if b == 2:
             e = random.randint(1, h - 2)
+            if x != w - 1:
+                pole[y][w - x - 1][3] = col[d]
+                pole[y][w - x - 2][1] = col[d]
+                d += 1
+                if d == c:
+                    d = 0
+                x += 1
         while x != w - 1 or y != h - 1:
-            if b == 0:
+            if b == 1:
                 a = random.randint(1, 2) # 1 - Вниз, 2 - Влево
                 if a == 1:
                     if y != h - 1:
@@ -135,7 +149,7 @@ def generate_random_pole(w, h, c, levl): # width, height, col-vo colors, level(1
                             d += 1
                             if d == c:
                                 d = 0
-            if b == 2 or b == 1:
+            if b == 2:
                 a = random.randint(1, 2) # 1 - Вниз, 2 - Влево
                 if a == 1:
                     if y != h - 1:
