@@ -9,16 +9,18 @@ def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.t
     text = font_type.render(message, True, font_color)
     var.screen.blit(text, (x, y))
 
-def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
+
+def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0),
+                         font_type='Marta_Decor_Two.ttf', font_size=20):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
-    var.screen.blit(text, (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
+    var.screen.blit(text,
+                    (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
 
 
 class Settings(Pra_window):
     def __init__(self):
         self.col_par = 1
-
 
     def first_update(self):
         self.button = Button(200, 50)
@@ -28,12 +30,16 @@ class Settings(Pra_window):
     def update(self):
         var.screen.fill((30, 30, 30))
         self.button.draw(40, var.SCREEN_HEIGHT - self.button.height - 40, 'Назад в меню')
-        self.button_set.draw(var.SCREEN_WIDTH // 2 - self.button_set.width - 10, var.SCREEN_HEIGHT // (self.col_par + 1) - self.button_set.height, 'Подсказки')
+        self.button_set.draw(var.SCREEN_WIDTH // 2 - self.button_set.width - 10,
+                             var.SCREEN_HEIGHT // (self.col_par + 1) - self.button_set.height, 'Подсказки')
         if var.podskazki:
-            print_text('Подсказки включены', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // (self.col_par + 1) - self.button_set.height // 4 * 3, (0, 200, 140), font_size=20)
+            print_text('Подсказки включены', var.SCREEN_WIDTH // 2 + 10,
+                       var.SCREEN_HEIGHT // (self.col_par + 1) - self.button_set.height // 4 * 3, (0, 200, 140),
+                       font_size=20)
         else:
-            print_text('Подсказки выключены', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // (self.col_par + 1) - self.button_set.height // 4 * 3, (0, 200, 140), font_size=20)
-
+            print_text('Подсказки выключены', var.SCREEN_WIDTH // 2 + 10,
+                       var.SCREEN_HEIGHT // (self.col_par + 1) - self.button_set.height // 4 * 3, (0, 200, 140),
+                       font_size=20)
 
 
 class Button:

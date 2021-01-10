@@ -12,10 +12,14 @@ def print_text(message, x, y, font_color=(60, 140, 190), font_type='Marta_Decor_
     text = font_type.render(message, True, font_color)
     var.screen.blit(text, (x, y))
 
-def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
+
+def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0),
+                         font_type='Marta_Decor_Two.ttf', font_size=20):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
-    var.screen.blit(text, (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
+    var.screen.blit(text,
+                    (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
+
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
@@ -38,11 +42,13 @@ class Set_in_game(Pra_window):
         var.screen.blit(self.im, (0, 0))
         self.update()
 
-
     def update(self):
-        print_text('Пауза', var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 100).render('Пауза', True, (60, 140, 190)).get_width() // 2, 20, font_size=100)
-        self.button.draw(var.SCREEN_WIDTH // 2 - self.button.width // 2, var.SCREEN_HEIGHT // 2 - 40 - self.button.height, 'Назад в меню')
-        self.button_play.draw(var.SCREEN_WIDTH // 2 - self.button_play.width // 2, var.SCREEN_HEIGHT // 2 + 40, 'Продолжить')
+        print_text('Пауза', var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 100).render('Пауза', True, (
+        60, 140, 190)).get_width() // 2, 20, font_size=100)
+        self.button.draw(var.SCREEN_WIDTH // 2 - self.button.width // 2,
+                         var.SCREEN_HEIGHT // 2 - 40 - self.button.height, 'Назад в меню')
+        self.button_play.draw(var.SCREEN_WIDTH // 2 - self.button_play.width // 2, var.SCREEN_HEIGHT // 2 + 40,
+                              'Продолжить')
 
 
 class Button:

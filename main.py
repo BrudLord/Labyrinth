@@ -1,4 +1,4 @@
-from random import  randint
+from random import randint
 import Variables
 from Game_window import *
 from Setting_window import *
@@ -32,8 +32,11 @@ def main():
     gate_left = load_image('Gate_left.png')
     gate_left = pygame.transform.scale(gate_left, (Variables.SCREEN_WIDTH // 2, Variables.SCREEN_HEIGHT))
     gate_reight = load_image('Gate_reight.png')
-    gate_reight = pygame.transform.scale(gate_reight, (int((Variables.SCREEN_WIDTH // 2 + 1) / (gate_reight.get_width() - 310) * gate_reight.get_width()), Variables.SCREEN_HEIGHT))
-    gate_standart_pos = [-gate_reight.get_width() - 5, 0, Variables.SCREEN_WIDTH + 1, Variables.SCREEN_WIDTH - gate_reight.get_width() - 4]
+    gate_reight = pygame.transform.scale(gate_reight, (
+    int((Variables.SCREEN_WIDTH // 2 + 1) / (gate_reight.get_width() - 310) * gate_reight.get_width()),
+    Variables.SCREEN_HEIGHT))
+    gate_standart_pos = [-gate_reight.get_width() - 5, 0, Variables.SCREEN_WIDTH + 1,
+                         Variables.SCREEN_WIDTH - gate_reight.get_width() - 4]
     gate_pos = [-gate_reight.get_width() - 5, Variables.SCREEN_WIDTH + 1]
     pygame.mixer.music.play(-1)
     clock = pygame.time.Clock()
