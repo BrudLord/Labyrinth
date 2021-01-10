@@ -8,8 +8,8 @@ WIN = False
 POLE_SIZE = [[7, 5], [14, 10], [21, 15]]
 COLOR_VALUE = {
     'r': 'red',
-    'b': 'blue',
     'g': 'green',
+    'b': 'blue',
     'o': 'orange',
     't': 'turquoise',
     'y': 'yellow'
@@ -32,7 +32,7 @@ lab_col = 3
 set_in = None
 Chellenge = False
 kol_chel = 1
-max_kol_chel = 9
+max_kol_chel = 10
 sum_time = 0
 time_for_ur = 0
 start_time = 0
