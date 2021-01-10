@@ -30,8 +30,8 @@ class Pole(Pra_window):
     # size - размеры игрового поля (в клетках)
     def __init__(self, size, colors):
         super().__init__()
-        self.width = size[0]
         self.height = size[1]
+        self.width = size[0]
         self.cell_size = min([int((var.SCREEN_HEIGHT * 0.89) // self.height),
                               int(var.SCREEN_WIDTH // self.width)])
         self.board, colors = pga.generate_random_pole(self.width, self.height, colors, var.lab_hard)
