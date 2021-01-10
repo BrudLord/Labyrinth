@@ -31,18 +31,16 @@ class MainWindow(Pra_window):
         self.button2 = Button(*self.standart_button_size)
         self.button3 = Button(*self.standart_button_size)
         self.button4 = Button(*self.standart_button_size)
-        self.button5 = Button(*self.standart_button_size)
         self.button6 = Button(*self.standart_button_size)
         self.button7 = Button(20, 20)
         BackGround = Background('data\\' + str(count) + '.gif', [0, 0])
         var.screen.blit(BackGround.image, BackGround.rect)
         self.button.draw(20, 100, 'Играть')
-        self.button2.draw(20, 150 + self.standart_button_size[1], "Испытания")
-        self.button3.draw(20, 200 + self.standart_button_size[1] * 2, 'Настройки')
-        self.button4.draw(20, 250 + self.standart_button_size[1] * 3, 'Рейтинг')
-        self.button5.draw(20, 300 + self.standart_button_size[1] * 4, 'О игре')
-        self.button6.draw(20, 350 + self.standart_button_size[1] * 5, 'Выйти')
-        self.button7.draw(750, 30, '?')
+        self.button2.draw(20, 175 + self.standart_button_size[1], "Испытания")
+        self.button3.draw(20, 250 + self.standart_button_size[1] * 2, 'Настройки')
+        self.button4.draw(20, 325 + self.standart_button_size[1] * 3, 'Рейтинг')
+        self.button6.draw(20, 400 + self.standart_button_size[1] * 4, 'Выйти')
+        self.button7.draw(var.SCREEN_WIDTH - self.button7.width - 20, 20, '?')
 
     def update(self):
         global count
@@ -53,12 +51,11 @@ class MainWindow(Pra_window):
             count += 1
         BackGround = Background('data\\' + str(count) + '.gif', [0, 0])
         var.screen.blit(BackGround.image, BackGround.rect)
-        self.button.draw(20, 100, 'Играть')
-        self.button2.draw(20, 150 + self.standart_button_size[1], "Испытания")
-        self.button3.draw(20, 200 + self.standart_button_size[1] * 2, 'Настройки')
-        self.button4.draw(20, 250 + self.standart_button_size[1] * 3, 'Рейтинг')
-        self.button5.draw(20, 300 + self.standart_button_size[1] * 4, 'О игре')
-        self.button6.draw(20, 350 + self.standart_button_size[1] * 5, 'Выйти')
+        self.button.draw(20, 150, 'Играть')
+        self.button2.draw(20, 225 + self.standart_button_size[1], "Испытания")
+        self.button3.draw(20, 300 + self.standart_button_size[1] * 2, 'Настройки')
+        self.button4.draw(20, 375 + self.standart_button_size[1] * 3, 'Рейтинг')
+        self.button6.draw(20, 450 + self.standart_button_size[1] * 4, 'Выйти')
         self.button7.draw(var.SCREEN_WIDTH - self.button7.width - 20, 20, '?')
 
 
@@ -81,10 +78,15 @@ class Button:
                     var.name = 'Предыгровое меню'
                     var.CHANGE_WINDOW = True
                 if text == 'Испытания':
-                    var.name = 'Игра'
+                    var.kol_chel = 0
+                    var.Chellenge = True
+                    var.name = 'Испытания'
                     var.CHANGE_WINDOW = True
                 if text == 'Настройки':
                     var.name = 'Настройки'
+                    var.CHANGE_WINDOW = True
+                if text == 'Рейтинг':
+                    var.name = 'Рейтинг'
                     var.CHANGE_WINDOW = True
                 if text == '?':
                     var.name = 'Помощь'

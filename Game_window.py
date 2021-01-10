@@ -6,6 +6,7 @@ from Path_algorithm import *
 import pygame
 import keyboard
 import sys
+from random import randint
 import os
 import copy
 import math
@@ -40,13 +41,17 @@ class Pole(Pra_window):
         self.width = size[0]
         self.cell_size = min([int((var.SCREEN_HEIGHT * 0.89) // self.height),
                               int(var.SCREEN_WIDTH // self.width)])
-        self.board, colors = pga.generate_random_pole(self.width, self.height, colors, var.lab_hard)
+        if not var.Chellenge:
+            self.board, colors = pga.generate_random_pole(self.width, self.height, colors, var.lab_hard)
+        else:
+            self.board, colors = pga.generate_random_pole(self.width, self.height, colors, randint(1, 2))
         self.left = (var.SCREEN_WIDTH - self.cell_size * self.width) // 2
         self.top = var.SCREEN_HEIGHT * 0.1
         self.colors = colors
         keyboard.add_hotkey('h', self.hot_key_for_help)
         self.win = False
-        self.ways = find_way(self.board, self.colors, self.width - 1, 0, 0, self.height - 1)
+        if not var.Chellenge:
+            self.ways = find_way(self.board, self.colors, self.width - 1, 0, 0, self.height - 1)
 
     def first_update(self):
         var.screen.fill('black')
@@ -61,6 +66,9 @@ class Pole(Pra_window):
         self.all_doors.draw(var.screen)
 
     def update(self):
+        if var.start_time == 0:
+            var.start_time = time.time()
+        var.time_for_ur = time.time() - var.start_time
         var.screen.fill('black')
         self.hero_sprites.update(-1)
         self.all_cells_sprites.draw(var.screen)
@@ -89,6 +97,9 @@ class Pole(Pra_window):
         print_text('Старт', self.left + self.cell_size * self.width - self.cell_size // 2 - message.get_width() // 2, self.top + self.cell_size // 5 - message.get_height() // 2, font_color=(255, 255, 255), font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
         if self.hero.hero_way[-1][1] == 0 and self.hero.hero_way[-1][0] == self.height - 1:
             self.win = True
+        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render(str(round(var.sum_time + var.time_for_ur, 1)), True, (60, 140, 190))
+        print_text(str(round(var.sum_time + var.time_for_ur, 1)), var.SCREEN_WIDTH - 100 - message.get_width() // 2, 20,
+                   font_color=(255, 255, 255), font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
         self.hero_sprites.update(-2)
 
     def window_event(self, key_press):
@@ -101,6 +112,8 @@ class Pole(Pra_window):
         if key_press == pygame.K_DOWN:
             self.hero_sprites.update(2)
         if key_press == pygame.K_ESCAPE:
+            var.sum_time += var.time_for_ur
+            var.start_time = 0
             var.set_in = Set_in_game()
             var.set_in.first_update()
 
@@ -162,7 +175,7 @@ class Pole(Pra_window):
                     cell.image = pygame.transform.rotate(cell.image, alpha)
 
     def hot_key_for_help(self):
-        if var.GATES_MOVI == 0 and self.hero.hero_way[-1] != [self.height - 1, 0] and var.podskazki:
+        if var.GATES_MOVI == 0 and self.hero.hero_way[-1] != [self.height - 1, 0] and var.podskazki and not var.Chellenge:
             hero_way = ''
             for i in self.hero.hero_way:
                 hero_way += str(i[1]) + ',' + str(i[0]) + '-'
@@ -287,8 +300,24 @@ class Hero(pygame.sprite.Sprite):
             self.print_win_text()
             pygame.display.flip()
             pygame.time.delay(1500)
-            var.name = 'Предыгровое меню'
-            var.CHANGE_WINDOW = True
+            if not var.Chellenge:
+                var.name = 'Предыгровое меню'
+                var.CHANGE_WINDOW = True
+                var.sum_time = 0
+                var.time_for_ur = 0
+            else:
+                var.kol_chel += 1
+                var.sum_time += var.time_for_ur
+                var.time_for_ur = 0
+                var.start_time = 0
+                if var.kol_chel <= var.max_kol_chel:
+                    var.name = 'Испытания'
+                    var.CHANGE_WINDOW = True
+                else:
+                    var.Chellenge = False
+                    var.name = 'Установка результата'
+                    var.CHANGE_WINDOW = True
+
 
     def print_win_text(self, font_color=(255, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=300):
         im = load_image('zatemnenie.png')
