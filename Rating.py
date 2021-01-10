@@ -10,10 +10,13 @@ def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.t
     text = font_type.render(message, True, font_color)
     var.screen.blit(text, (x, y))
 
-def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
+
+def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0),
+                         font_type='Marta_Decor_Two.ttf', font_size=20):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
-    var.screen.blit(text, (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
+    var.screen.blit(text,
+                    (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
 
 
 class Rating(Pra_window):
@@ -31,7 +34,8 @@ class Rating(Pra_window):
         rec = cur.execute("""SELECT Time, Name from Records""").fetchall()
         rec.sort()
         for i in range(min(10, len(rec))):
-            print_text('{}) {} - {}'.format(str(i + 1), rec[i][1], rec[i][0]), var.SCREEN_WIDTH // 10 * 4, 30 + 50 * i, (60, 140, 190), font_size=40)
+            print_text('{}) {} - {}'.format(str(i + 1), rec[i][1], rec[i][0]), var.SCREEN_WIDTH // 10 * 4, 30 + 50 * i,
+                       (60, 140, 190), font_size=40)
         self.button.draw(40, var.SCREEN_HEIGHT - self.button.height - 40, 'Назад в меню')
 
 

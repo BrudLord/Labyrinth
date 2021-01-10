@@ -9,10 +9,13 @@ def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.t
     text = font_type.render(message, True, font_color)
     var.screen.blit(text, (x, y))
 
-def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
+
+def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0),
+                         font_type='Marta_Decor_Two.ttf', font_size=20):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
-    var.screen.blit(text, (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
+    var.screen.blit(text,
+                    (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
 
 
 class Pre_game_setting(Pra_window):
@@ -21,7 +24,8 @@ class Pre_game_setting(Pra_window):
 
     def first_update(self):
         self.input_box1 = InputBox(var.SCREEN_WIDTH // 2, var.SCREEN_HEIGHT // 64 * 10, 140, 32, 'Размер лабиринта')
-        self.input_box2 = InputBox(var.SCREEN_WIDTH // 2, var.SCREEN_HEIGHT // 64 * 15, 140, 32, 'Количество цветов дверей')
+        self.input_box2 = InputBox(var.SCREEN_WIDTH // 2, var.SCREEN_HEIGHT // 64 * 15, 140, 32,
+                                   'Количество цветов дверей')
         self.input_box3 = InputBox(var.SCREEN_WIDTH // 2, var.SCREEN_HEIGHT // 64 * 20, 140, 32, 'Сложность')
         self.input_boxes = [self.input_box1, self.input_box2, self.input_box3]
         self.button = Button(200, 50)
@@ -34,16 +38,38 @@ class Pre_game_setting(Pra_window):
         for box in self.input_boxes:
             box.draw(var.screen)
         self.button.draw(40, var.SCREEN_HEIGHT - 40 - self.button.height, 'Назад в меню')
-        self.button_play.draw(var.SCREEN_WIDTH - 40 - self.button_play.width, var.SCREEN_HEIGHT - 40 - self.button_play.height, 'Играть')
-        print_text('Размер лабиринта',  var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 10, (60, 140, 190), font_size=30)
-        print_text('Количество цветов дверей',  var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 15 + 2, (60, 140, 190), font_size=30)
-        print_text('Сложность',  var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 20 + 4, (60, 140, 190), font_size=30)
-        print_text('Количество цветов  показывает сколько', var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True, (0, 0, 0)).get_width() // 2,var.SCREEN_HEIGHT // 64 * 25 + 20, (60, 140, 190), font_size=20)
-        print_text('будет различных по цвету дверей в одном лабиринте', var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True, (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 50, (60, 140, 190), font_size=20)
-        print_text('------------------------------------------------------', var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True, (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 80, (250, 140, 200), font_size=30)
-        print_text('Размер лабиринта устанавливает размер игрового поля', var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True, (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 110, (60, 140, 190), font_size=20)
-        print_text('Указывается в формате "x y" где x длинна ,а y высота', var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True, (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 140, (60, 140, 190), font_size=20)
-        print_text('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True, (0, 0, 0)).get_width() // 2,  var.SCREEN_HEIGHT // 64 * 25 + 170, (60, 140, 190), font_size=20)
+        self.button_play.draw(var.SCREEN_WIDTH - 40 - self.button_play.width,
+                              var.SCREEN_HEIGHT - 40 - self.button_play.height, 'Играть')
+        print_text('Размер лабиринта', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 10, (60, 140, 190),
+                   font_size=30)
+        print_text('Количество цветов дверей', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 15 + 2,
+                   (60, 140, 190), font_size=30)
+        print_text('Сложность', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 20 + 4, (60, 140, 190),
+                   font_size=30)
+        print_text('Количество цветов  показывает сколько',
+                   var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render(
+                       'Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True,
+                       (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 20, (60, 140, 190), font_size=20)
+        print_text('будет различных по цвету дверей в одном лабиринте',
+                   var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render(
+                       'Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True,
+                       (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 50, (60, 140, 190), font_size=20)
+        print_text('------------------------------------------------------',
+                   var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render(
+                       'Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True,
+                       (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 80, (250, 140, 200), font_size=30)
+        print_text('Размер лабиринта устанавливает размер игрового поля',
+                   var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render(
+                       'Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True,
+                       (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 110, (60, 140, 190), font_size=20)
+        print_text('Указывается в формате "x y" где x длинна ,а y высота',
+                   var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render(
+                       'Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True,
+                       (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 140, (60, 140, 190), font_size=20)
+        print_text('Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту',
+                   var.SCREEN_WIDTH // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 20).render(
+                       'Пример - 6 4. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', True,
+                       (0, 0, 0)).get_width() // 2, var.SCREEN_HEIGHT // 64 * 25 + 170, (60, 140, 190), font_size=20)
 
     def window_event(self, k):
         for box in self.input_boxes:

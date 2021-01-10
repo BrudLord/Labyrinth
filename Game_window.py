@@ -1,7 +1,7 @@
 from Window import Pra_window
 import Variables as var
 import Pole_generate_algorithm as pga
-from  Setting_in_game import *
+from Setting_in_game import *
 from Path_algorithm import *
 import pygame
 import keyboard
@@ -17,6 +17,7 @@ def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.t
     text = font_type.render(message, True, font_color)
     var.screen.blit(text, (x, y))
 
+
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
     # если файл не существует, то выходим
@@ -24,6 +25,7 @@ def load_image(name, colorkey=None):
         return '0'
     image = pygame.image.load(fullname)
     return image
+
 
 def next_col(posl, ind):
     ind = posl.index(ind)
@@ -58,7 +60,8 @@ class Pole(Pra_window):
         self.all_cells_sprites = pygame.sprite.Group()
         self.all_doors = pygame.sprite.Group()
         self.hero_sprites = pygame.sprite.Group()
-        self.hero = Hero(self.width - 1, 0, self.board, self.hero_sprites, self.cell_size, self.left, self.top, [self.height, self.width], self.colors)
+        self.hero = Hero(self.width - 1, 0, self.board, self.hero_sprites, self.cell_size, self.left, self.top,
+                         [self.height, self.width], self.colors)
         self.draw_cells()
         self.draw_doors()
         self.all_cells_sprites.draw(var.screen)
@@ -78,8 +81,10 @@ class Pole(Pra_window):
             x2 = self.left + self.hero.hero_way[i][1] * self.cell_size + self.cell_size // 2
             y2 = self.top + self.hero.hero_way[i][0] * self.cell_size + self.cell_size // 2
             if i == 1:
-                pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i - 1]], (x1, y1), (x1 + (x2 - x1) // 2, y1 + (y2 - y1) // 2), self.cell_size // 10)
-                pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i]], (x1 + (x2 - x1) // 2, y1 + (y2 - y1) // 2), (x2, y2), self.cell_size // 10)
+                pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i - 1]], (x1, y1),
+                                 (x1 + (x2 - x1) // 2, y1 + (y2 - y1) // 2), self.cell_size // 10)
+                pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i]],
+                                 (x1 + (x2 - x1) // 2, y1 + (y2 - y1) // 2), (x2, y2), self.cell_size // 10)
             else:
                 x3 = x1 if y1 != y2 else x1 + ((x1 - x2) // abs(x1 - x2)) * self.cell_size // 20
                 if x2 > x1:
@@ -87,17 +92,26 @@ class Pole(Pra_window):
                 y3 = y1 if x1 != x2 else y1 + ((y1 - y2) // abs(y1 - y2)) * self.cell_size // 20
                 if y2 > y1:
                     y3 += 1
-                pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i - 1]], (x3, y3), (x3 + (x2 - x3) // 2, y3 + (y2 - y3) // 2), self.cell_size // 10)
-                pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i]], (x3 + (x2 - x3) // 2, y3 + (y2 - y3) // 2), (x2, y2), self.cell_size // 10)
+                pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i - 1]], (x3, y3),
+                                 (x3 + (x2 - x3) // 2, y3 + (y2 - y3) // 2), self.cell_size // 10)
+                pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i]],
+                                 (x3 + (x2 - x3) // 2, y3 + (y2 - y3) // 2), (x2, y2), self.cell_size // 10)
         self.hero_sprites.draw(var.screen)
         self.all_doors.draw(var.screen)
-        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render('Финиш', True, (60, 140, 190))
-        print_text('Финиш', self.left + self.cell_size // 2 - message.get_width() // 2, self.top + self.cell_size * self.height - self.cell_size // 5 - message.get_height() // 2, font_color=(255, 255, 255), font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
-        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render('Старт', True, (60, 140, 190))
-        print_text('Старт', self.left + self.cell_size * self.width - self.cell_size // 2 - message.get_width() // 2, self.top + self.cell_size // 5 - message.get_height() // 2, font_color=(255, 255, 255), font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
+        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render('Финиш', True,
+                                                                                             (60, 140, 190))
+        print_text('Финиш', self.left + self.cell_size // 2 - message.get_width() // 2,
+                   self.top + self.cell_size * self.height - self.cell_size // 5 - message.get_height() // 2,
+                   font_color=(255, 255, 255), font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
+        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render('Старт', True,
+                                                                                             (60, 140, 190))
+        print_text('Старт', self.left + self.cell_size * self.width - self.cell_size // 2 - message.get_width() // 2,
+                   self.top + self.cell_size // 5 - message.get_height() // 2, font_color=(255, 255, 255),
+                   font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
         if self.hero.hero_way[-1][1] == 0 and self.hero.hero_way[-1][0] == self.height - 1:
             self.win = True
-        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render(str(round(var.sum_time + var.time_for_ur, 1)), True, (60, 140, 190))
+        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render(
+            str(round(var.sum_time + var.time_for_ur, 1)), True, (60, 140, 190))
         print_text(str(round(var.sum_time + var.time_for_ur, 1)), var.SCREEN_WIDTH - 100 - message.get_width() // 2, 20,
                    font_color=(255, 255, 255), font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
         self.hero_sprites.update(-2)
@@ -175,7 +189,8 @@ class Pole(Pra_window):
                     cell.image = pygame.transform.rotate(cell.image, alpha)
 
     def hot_key_for_help(self):
-        if var.GATES_MOVI == 0 and self.hero.hero_way[-1] != [self.height - 1, 0] and var.podskazki and not var.Chellenge:
+        if var.GATES_MOVI == 0 and self.hero.hero_way[-1] != [self.height - 1,
+                                                              0] and var.podskazki and not var.Chellenge:
             hero_way = ''
             for i in self.hero.hero_way:
                 hero_way += str(i[1]) + ',' + str(i[0]) + '-'
@@ -255,26 +270,32 @@ class Hero(pygame.sprite.Sprite):
             elif not self.travel:
                 self.travel = True
                 if napr % 2 == 0:
-                    if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][1]] not in self.hero_way[: -2]:
-                        if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][1]] in self.hero_way:
+                    if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'),
+                        self.hero_way[-1][1]] not in self.hero_way[: -2]:
+                        if [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'),
+                            self.hero_way[-1][1]] in self.hero_way:
                             self.nazad = True
                         else:
                             if (self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] or
                                     self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] == 'n'):
-                                self.hero_way.append([self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][-1]])
+                                self.hero_way.append(
+                                    [self.hero_way[-1][0] + int(str(napr - 1)[:-1] + '1'), self.hero_way[-1][-1]])
                                 self.nazad = False
                             else:
                                 self.travel = False
                     else:
                         self.travel = False
                 else:
-                    if [self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] not in self.hero_way[: -2]:
-                        if [self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] in self.hero_way:
+                    if [self.hero_way[-1][0],
+                        self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] not in self.hero_way[: -2]:
+                        if [self.hero_way[-1][0],
+                            self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')] in self.hero_way:
                             self.nazad = True
                         else:
                             if (self.colors_posled[-1] == self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] or
                                     self.pole[self.hero_way[-1][0]][self.hero_way[-1][1]][napr] == 'n'):
-                                self.hero_way.append([self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')])
+                                self.hero_way.append(
+                                    [self.hero_way[-1][0], self.hero_way[-1][1] + int(str(-(napr - 2))[:-1] + '1')])
                                 self.nazad = False
                             else:
                                 self.travel = False
@@ -319,11 +340,11 @@ class Hero(pygame.sprite.Sprite):
                     var.name = 'Установка результата'
                     var.CHANGE_WINDOW = True
 
-
     def print_win_text(self, font_color=(255, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=300):
         im = load_image('zatemnenie.png')
         im = pygame.transform.scale(im, var.SCREEN_SIZE[::-1])
         var.screen.blit(im, (0, 0))
         font_type = pygame.font.Font(font_type, font_size)
         text = font_type.render('You win', True, font_color)
-        var.screen.blit(text, (var.SCREEN_WIDTH // 2 - text.get_width() // 2, var.SCREEN_HEIGHT // 2 - text.get_height() // 2))
+        var.screen.blit(text, (
+        var.SCREEN_WIDTH // 2 - text.get_width() // 2, var.SCREEN_HEIGHT // 2 - text.get_height() // 2))

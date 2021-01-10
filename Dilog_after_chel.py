@@ -10,10 +10,13 @@ def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.t
     text = font_type.render(message, True, font_color)
     var.screen.blit(text, (x, y))
 
-def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
+
+def print_text_in_button(message, x, y, button_width, button_height, font_color=(0, 0, 0),
+                         font_type='Marta_Decor_Two.ttf', font_size=20):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
-    var.screen.blit(text, (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
+    var.screen.blit(text,
+                    (x + button_width // 2 - text.get_width() // 2, y + button_height // 2 - text.get_height() // 2))
 
 
 name = ''
@@ -36,8 +39,9 @@ class Dilog(Pra_window):
         for box in self.input_boxes:
             box.draw(var.screen)
         self.button.draw(40, var.SCREEN_HEIGHT - 40 - self.button.height, 'Выйти')
-        self.button_play.draw(var.SCREEN_WIDTH - 40 - self.button_play.width, var.SCREEN_HEIGHT - 40 - self.button_play.height, 'Сохранить')
-        print_text('Имя',  var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 30, (60, 140, 190), font_size=30)
+        self.button_play.draw(var.SCREEN_WIDTH - 40 - self.button_play.width,
+                              var.SCREEN_HEIGHT - 40 - self.button_play.height, 'Сохранить')
+        print_text('Имя', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 30, (60, 140, 190), font_size=30)
 
     def window_event(self, k):
         for box in self.input_boxes:
