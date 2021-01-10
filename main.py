@@ -11,6 +11,7 @@ from Music import *
 import copy
 import time
 from Help import *
+from Rating import *
 
 
 def load_image(name, colorkey=None):
@@ -126,6 +127,8 @@ def change_window():
         Variables.window = Pole([randint(7, 9), randint(7, 9)], randint(2, 6))
     elif Variables.name == 'Установка результата':
         Variables.window = Dilog()
+    elif Variables.name == 'Рейтинг':
+        Variables.window = Rating()
     Variables.window.first_update()
 
 

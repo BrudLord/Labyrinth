@@ -85,6 +85,9 @@ class Button:
                 if text == 'Настройки':
                     var.name = 'Настройки'
                     var.CHANGE_WINDOW = True
+                if text == 'Рейтинг':
+                    var.name = 'Рейтинг'
+                    var.CHANGE_WINDOW = True
                 if text == '?':
                     var.name = 'Помощь'
                     var.CHANGE_WINDOW = True
