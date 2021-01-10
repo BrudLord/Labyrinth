@@ -124,7 +124,7 @@ def change_window():
     elif Variables.name == 'Помощь':
         Variables.window = Help()
     elif Variables.name == 'Испытания':
-        Variables.window = Pole([randint(7, 9), randint(7, 9)], randint(2, 6))
+        Variables.window = Pole([randint(6, 8), randint(6, 8)], randint(2, 5))
     elif Variables.name == 'Установка результата':
         Variables.window = Dilog()
     elif Variables.name == 'Рейтинг':

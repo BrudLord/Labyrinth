@@ -305,6 +305,7 @@ class Hero(pygame.sprite.Sprite):
                 var.CHANGE_WINDOW = True
                 var.sum_time = 0
                 var.time_for_ur = 0
+                var.start_time = 0
             else:
                 var.kol_chel += 1
                 var.sum_time += var.time_for_ur
