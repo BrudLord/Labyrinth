@@ -1,6 +1,7 @@
 import Variables as var
 import random
 
+
 def read_pole(filename, flag):
     f = open(filename, 'r')
     g = f.readlines()
@@ -29,8 +30,9 @@ def read_pole(filename, flag):
     else:
         return width, height
 
-def generate_random_pole(w, h, c, l): # width, height, col-vo colors, level(1, 2, 3)
-    col = ['r', 'b', 'g', 'o', 't' 'y'] # red, blue, green, orange, light blue, yellow
+
+def generate_random_pole(w, h, c, levl): # width, height, col-vo colors, level(1, 2, 3)
+    col = ['r', 'b', 'g', 'o', 't', 'y'] # red, blue, green, orange, light blue, yellow
     if c < 2:
         return 'Error'
     if w < 3:
@@ -63,7 +65,7 @@ def generate_random_pole(w, h, c, l): # width, height, col-vo colors, level(1, 2
             b.append(c4)
             a.append(b)
         pole.append(a)
-    if l == 1:
+    if levl == 1:
         while x != w - 1 or y != h - 1:
             a = random.randint(1, 2) # 1 - Вниз, 2 - Влево
             if a == 1:
@@ -94,7 +96,7 @@ def generate_random_pole(w, h, c, l): # width, height, col-vo colors, level(1, 2
                             if k == 2:
                                 pole[i][j][k] = col[(a // 2)]
                                 pole[i + 1][j][0] = col[(a // 2)]
-    if l == 2:
+    if levl == 2:
         b = random.randint(1, 2) # 1 - Вверх, 2 - Вправо
         if b == 1:
             e = random.randint(1, w - 2)
@@ -177,7 +179,7 @@ def generate_random_pole(w, h, c, l): # width, height, col-vo colors, level(1, 2
                             if k == 2:
                                 pole[i][j][k] = col[(a // 2)]
                                 pole[i + 1][j][0] = col[(a // 2)]
-    return pole
+    return pole, col[:c]
             
 
 def generate_pole(size, colors):

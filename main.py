@@ -95,12 +95,12 @@ def change_window():
         Variables.window = Settings()
     elif Variables.name == 'Предыгровое меню':
         Variables.window = Pre_game_setting()
-    elif Variables.name == 'Игровое меню':
-        Variables.window = Pre_game_setting()
     elif Variables.name == 'Игра':
-        Variables.window = Pole([6, 5], 3)
+        Variables.window = Pole([var.lab_w, var.lab_h], var.lab_col)
     elif Variables.name == 'Помощь':
         Variables.window = Help()
+    '''elif Variables.name == 'Игровое меню':
+        Variables.window = Pre_game_setting()'''
     Variables.window.first_update()
 
 
