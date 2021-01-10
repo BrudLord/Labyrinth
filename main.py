@@ -1,136 +1,474 @@
-from random import  randint
-import Variables
-from Game_window import *
-from Setting_window import *
-from Setting_befor_game_window import *
-from Setting_in_game import *
-from Main_window import *
-from Dilog_after_chel import *
 import pygame
-from Music import *
-import copy
-import time
-from Help import *
-from Rating import *
+import sqlite3
+import keyboard
 
 
-def load_image(name, colorkey=None):
-    fullname = os.path.join('data', name)
-    # если файл не существует, то выходим
-    if not os.path.isfile(fullname):
-        return '0'
-    image = pygame.image.load(fullname)
-    return image
+pygame.mixer.pre_init(44100, -16, 2, 512)
+pygame.init()
+
+Flag = True
+display_w = 800
+display_h = 430
+display = pygame.display.set_mode((display_w, display_h))
+pygame.display.set_caption('Maze')
+
+con = sqlite3.connect('data_base.db')
+cur = con.cursor()
+pygame.mixer.music.load('data\\579b2fbcdd508f7.mp3')
+pygame.mixer.music.set_volume(0.2)
+button_sound = pygame.mixer.Sound('data\\00171.wav')
+door_sound = pygame.mixer.Sound('data\\door_05.wav')
+pygame.mixer.Sound.set_volume(button_sound, 0.2)
+
+Main_flag = True
+Pre_game_flag = False
+game_flag = False
+Settings_flag = False
+Help_flag = False
+About_game_flag = False
+profil_flag = False
+pygame.init()
+COLOR_ACTIVE = pygame.Color(41, 150, 150)
+COLOR_INACTIVE = pygame.Color(9, 190, 150)
+FONT = pygame.font.Font(None, 32)
+count = -1
+advicex = True
 
 
-def main():
-    pygame.init()
-    pygame.display.set_caption('Labyrinth')
-    Variables.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    Variables.SCREEN_SIZE = Variables.SCREEN_HEIGHT, Variables.SCREEN_WIDTH = [Variables.screen.get_height(),
-                                                                               Variables.screen.get_width()]
-    gate_left = load_image('Gate_left.png')
-    gate_left = pygame.transform.scale(gate_left, (Variables.SCREEN_WIDTH // 2, Variables.SCREEN_HEIGHT))
-    gate_reight = load_image('Gate_reight.png')
-    gate_reight = pygame.transform.scale(gate_reight, (int((Variables.SCREEN_WIDTH // 2 + 1) / (gate_reight.get_width() - 310) * gate_reight.get_width()), Variables.SCREEN_HEIGHT))
-    gate_standart_pos = [-gate_reight.get_width() - 5, 0, Variables.SCREEN_WIDTH + 1, Variables.SCREEN_WIDTH - gate_reight.get_width() - 4]
-    gate_pos = [-gate_reight.get_width() - 5, Variables.SCREEN_WIDTH + 1]
-    pygame.mixer.music.play(-1)
-    clock = pygame.time.Clock()
-    Variables.window = MainWindow()
-    running = True
-    Variables.window.first_update()
-    while running:
-        if Variables.GATES_MOVI == 0:
+def door():
+    pygame.mixer.Sound.set_volume(door_sound, 0.2)
+    pygame.mixer.Sound.play(door_sound)
+
+
+def play():
+    print(1)
+
+
+def m():
+    global profil_flag
+    global Pre_game_flag
+    global Main_flag
+    global game_flag
+    global Settings_flag
+    global Help_flag
+    global About_game_flag
+    global done
+    Main_flag = True
+    Pre_game_flag = False
+    game_flag = False
+    Settings_flag = False
+    Help_flag = False
+    About_game_flag = False
+    done = True
+    profil_flag = False
+
+
+
+def p():
+    global profil_flag
+    global Pre_game_flag
+    global Main_flag
+    global game_flag
+    global Settings_flag
+    global Help_flag
+    global About_game_flag
+    Main_flag = False
+    Pre_game_flag = True
+    game_flag = False
+    Settings_flag = False
+    Help_flag = False
+    About_game_flag = False
+    profil_flag = False
+
+
+def s():
+    global profil_flag
+    global Pre_game_flag
+    global Main_flag
+    global game_flag
+    global Settings_flag
+    global Help_flag
+    global About_game_flag
+    global done
+    Main_flag = False
+    Pre_game_flag = False
+    game_flag = False
+    Settings_flag = True
+    Help_flag = False
+    About_game_flag = False
+    profil_flag = False
+    done = True
+
+def h():
+    global profil_flag
+    global Pre_game_flag
+    global Main_flag
+    global game_flag
+    global Settings_flag
+    global Help_flag
+    global About_game_flag
+    global profil_flag
+    global done
+    Main_flag = False
+    Pre_game_flag = True
+    game_flag = False
+    Settings_flag = False
+    Help_flag = True
+    About_game_flag = False
+    profil_flag = False
+    done = True
+
+
+def a():
+    global profil_flag
+    global Pre_game_flag
+    global Main_flag
+    global game_flag
+    global Settings_flag
+    global Help_flag
+    global About_game_flag
+    global done
+    Main_flag = False
+    Pre_game_flag = False
+    game_flag = False
+    Settings_flag = False
+    Help_flag = False
+    About_game_flag = True
+    profil_flag = False
+    done = True
+
+
+def pp():
+    global profil_flag
+    global Pre_game_flag
+    global Main_flag
+    global game_flag
+    global Settings_flag
+    global Help_flag
+    global About_game_flag
+    global done
+    Main_flag = False
+    Pre_game_flag = False
+    game_flag = False
+    Settings_flag = False
+    Help_flag = False
+    About_game_flag = False
+    profil_flag = True
+    done = True
+
+
+def advice():
+    global advicex
+    if advicex is True:
+        advicex = False
+
+    elif advicex is False:
+        advicex = True
+
+
+def Hot_key():
+    global Flag
+    if Flag is True:
+        pygame.mixer.music.pause()
+        Flag = False
+    else:
+        pygame.mixer.music.unpause()
+        Flag = True
+
+
+keyboard.add_hotkey('p', Hot_key)
+
+
+def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
+    font_type = pygame.font.Font(font_type, font_size)
+    text = font_type.render(message, True, font_color)
+    display.blit(text, (x, y))
+
+
+class Button:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.inactive_color = (41, 150, 150)
+        self.active_color = (9, 190, 150)
+
+    def draw(self, x, y, text, action=None):
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        if x < mouse[0] < x + self.width:
+            if y < mouse[1] < y + self.height:
+                pygame.draw.rect(display, self.inactive_color, (x, y, self.width, self.height))
+                if click[0] == 1:
+                    pygame.mixer.Sound.play(button_sound)
+                    pygame.time.delay(150)
+                    if action != None:
+                        action()
+            else:
+                pygame.draw.rect(display, self.active_color, (x, y, self.width, self.height))
+
+        else:
+            pygame.draw.rect(display, self.active_color, (x, y, self.width, self.height))
+
+        print_text(text, x + 5, y + 5)
+
+
+class MainWindow:
+    def __init__(self):
+        pass
+
+    def first_update(self):
+        global count
+        global Flag
+        display.fill((255, 255, 255))
+        if count == 47:
+            count = 0
+        else:
+            count += 1
+        button = Button(70, 40)
+        button2 = Button(70, 40)
+        button3 = Button(70, 40)
+        button4 = Button(70, 40)
+        button5 = Button(70, 40)
+        button6 = Button(20, 20)
+        BackGround = Background('data\\' + str(count) + '.gif', [0, 0])
+        display.blit(BackGround.image, BackGround.rect)
+        button.draw(20, 100, 'Играть', p)
+        button2.draw(20, 150, "Испытания")
+        button3.draw(20, 200, 'Настройки', s)
+        button4.draw(20, 250, 'Профиль', pp)
+        button5.draw(20, 300, 'О игре', a)
+        button6.draw(750, 30,  '?', h)
+        pygame.display.update()
+
+
+class Settings:
+    def __init__(self):
+        pass
+
+
+    def first_update(self):
+        global done
+        done = False
+        global advice
+        button = Button(80, 40)
+        button_set = Button(80, 40)
+        while not done:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
-                if event.type == pygame.KEYDOWN:
-                    if var.set_in is None:
-                        Variables.window.window_event(event.key)
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if var.set_in is None:
-                        if event.button == 1:
-                            Variables.window.mouse_event(event.pos)
-        if Variables.CHANGE_WINDOW:
-            Variables.GATES_MOVI = 1
-            Variables.FPS = 100
-        if Variables.GATES_MOVI == 1:
-            if gate_pos[0] == gate_standart_pos[0]:
-                door()
-            if gate_pos[0] + 80 >= gate_standart_pos[1]:
-                gate_pos[0] += 5
-                gate_pos[1] -= 5
+                    done = True
+                    quit()
+            display.fill((30, 30, 30))
+            button.draw(10, 360, 'Назад в меню', m)
+            button_set.draw(10, 30, 'Подсказки', advice)
+            if advicex is True:
+                print_text('Подсказки включены', 100, 40, (0, 200, 140), font_size=20)
             else:
-                gate_pos[0] += 17
-                gate_pos[1] -= 17
-            if gate_pos[0] >= gate_standart_pos[1]:
-                gate_pos[0] = gate_standart_pos[1]
-                gate_pos[1] = gate_standart_pos[3]
-                change_window()
-                Variables.CHANGE_WINDOW = False
-                try:
-                    var.screen.blit(gate_left, (gate_pos[0], 0))
-                    var.screen.blit(gate_reight, (gate_pos[1], 0))
-                except Exception:
-                    pass
-                pygame.display.flip()
-                pygame.time.delay(1000)
-                Variables.GATES_MOVI = -1
-        elif Variables.GATES_MOVI == -1:
-            if gate_pos[0] == gate_standart_pos[1]:
-                door()
-            if gate_pos[0] + 20 >= gate_standart_pos[1]:
-                gate_pos[0] -= 7
-                gate_pos[1] += 7
-            elif gate_pos[0] + 40 >= gate_standart_pos[1]:
-                gate_pos[0] -= 14
-                gate_pos[1] += 14
-            elif gate_pos[0] + 80 >= gate_standart_pos[1]:
-                gate_pos[0] -= 28
-                gate_pos[1] += 28
+                print_text('Подсказки выключены', 100, 40, (0, 200, 140), font_size=20)
+            pygame.display.update()
+
+
+class Agame():
+    def __init__(self):
+        pass
+
+    def first_update(self):
+        global done
+        done = False
+        button = Button(80, 40)
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    done = True
+                    quit()
+            display.fill((30, 30, 30))
+            print_text('Maze - это игра в которой вашей целью будет прохождение ', 10, 40, (200, 140, 60),
+                       font_size=20)
+            print_text('лабиринтов как можно быстрее', 10, 70, (200, 140, 60),
+                       font_size=20)
+            print_text('избегая логических ловушек и хитросплетений коридоров', 10, 100, (200, 140, 60),
+                       font_size=20)
+            print_text('Игра создана на языке Python командой из 3 людей', 10, 130, (200, 140, 60),
+                       font_size=20)
+
+            button.draw(10, 360, 'Назад в меню', m)
+            pygame.display.update()
+
+
+
+class Profil:
+    def __init__(self):
+        pass
+
+    def first_update(self):
+        global done
+        done = False
+        button = Button(80, 40)
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    done = True
+                    quit()
+            display.fill((30, 30, 30))
+            print_text('Игровые Рекорды', 310, 40, (200, 140, 60), font_size=40)
+            button.draw(10, 360, 'Назад в меню', m)
+            pygame.display.update()
+
+
+class InputBox:
+    def __init__(self, x, y, w, h, text=''):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.color = COLOR_INACTIVE
+        self.text = text
+        self.txt_surface = FONT.render(text, True, self.color)
+        self.active = False
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # If the user clicked on the input_box rect.
+            if self.rect.collidepoint(event.pos):
+                # Toggle the active variable.
+                self.active = not self.active
             else:
-                gate_pos[0] -= 35
-                gate_pos[1] += 35
-            if gate_pos[0] <= gate_standart_pos[0]:
-                gate_pos[0] = gate_standart_pos[0]
-                gate_pos[1] = gate_standart_pos[2]
-                Variables.GATES_MOVI = 0
-                Variables.FPS = 60
-        if Variables.GATES_MOVI != 1:
-            if var.set_in is None:
-                Variables.window.update()
-            else:
-                Variables.set_in.update()
-        try:
-            var.screen.blit(gate_left, (gate_pos[0], 0))
-            var.screen.blit(gate_reight, (gate_pos[1], 0))
-        except Exception:
-            pass
-        pygame.display.flip()
-        clock.tick(Variables.FPS)
-    pygame.quit()
+                self.active = False
+            # Change the current color of the input box.
+            self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
+        if event.type == pygame.KEYDOWN:
+            if self.active:
+                if event.key == pygame.K_RETURN:
+                    print(self.text)
+                    self.text = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+                else:
+                    self.text += event.unicode
+                # Re-render the text.
+                self.txt_surface = FONT.render(self.text, True, self.color)
+
+    def update(self):
+        # Resize the box if the text is too long.
+        width = max(200, self.txt_surface.get_width()+10)
+        self.rect.w = width
+
+    def draw(self, screen):
+        # Blit the text.
+        screen.blit(self.txt_surface, (self.rect.x + 5, self.rect.y + 5))
+        # Blit the rect.
+        pygame.draw.rect(screen, self.color, self.rect, 2)
 
 
-def change_window():
-    if Variables.name == 'Главное меню':
-        Variables.window = MainWindow()
-    elif Variables.name == 'Настройки':
-        Variables.window = Settings()
-    elif Variables.name == 'Предыгровое меню':
-        Variables.window = Pre_game_setting()
-    elif Variables.name == 'Игра':
-        Variables.window = Pole([var.lab_w, var.lab_h], var.lab_col)
-    elif Variables.name == 'Помощь':
-        Variables.window = Help()
-    elif Variables.name == 'Испытания':
-        Variables.window = Pole([randint(6, 8), randint(6, 8)], randint(2, 5))
-    elif Variables.name == 'Установка результата':
-        Variables.window = Dilog()
-    elif Variables.name == 'Рейтинг':
-        Variables.window = Rating()
-    Variables.window.first_update()
+class Help:
+    def __init__(self):
+        pass
+
+    def first_update(self):
+        global done
+        done = False
+        button = Button(80, 40)
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    done = True
+                    quit()
+            display.fill((30, 30, 30))
+            print_text('Цель игры - вам необходимо как можно быстрее добраться до финиша', 10, 30, (60, 140, 190), font_size=20)
+            print_text('Особенности:', 10, 60, (60, 140, 190), font_size=20)
+            print_text('В лабиринте присутсвтуют двери разных цветов', 10, 90, (60, 140, 190), font_size=20)
+            print_text('игрок может проходить только через двери своего цвета.', 10, 120, (60, 140, 190), font_size=20)
+            print_text('При проходе через дверь например,', 10, 150, (60, 140, 190), font_size=20)
+            print_text('красного', 195, 150, (250, 10, 10), font_size=20)
+            print_text('цвета, игрок,', 245, 150, (60, 140, 190), font_size=20)
+            print_text('красного', 185, 180, (250, 10, 10), font_size=20)
+            print_text('При наличии в данный момент', 10, 180, (60, 140, 190), font_size=20)
+            print_text('поменяет его например на', 235, 180, (60, 140, 190), font_size=20)
+            print_text('зеленый', 385, 180, (10, 250, 10), font_size=20)
+            print_text('и больше не сможет проходить через дверь красного цвета', 10, 210, (60, 140, 190), font_size=20)
+            print_text('Профиль:', 10, 240, (60, 140, 190), font_size=20)
+            print_text('Показывает лучшее время за которое были пройдены уровни испытаний', 10, 270, (60, 140, 190), font_size=20)
+            print_text('Испытания:', 10, 300, (60, 140, 190), font_size=20)
+            print_text('Это сложная группа уровней которые были сделаны алгоритмом', 10, 330, (60, 140, 190), font_size=20)
+            button.draw(10, 360, 'Назад в меню', m)
+            pygame.display.update()
+            pygame.display.flip()
 
 
-if __name__ == '__main__':
-    main()
+class pre_game_setting:
+    def __init__(self):
+        pass
+
+    def first_update(self):
+        global done
+        clock = pygame.time.Clock()
+        input_box1 = InputBox(10, 10, 140, 32)
+        input_box2 = InputBox(10, 52, 140, 32)
+        input_boxes = [input_box1, input_box2]
+        done = False
+        button = Button(80, 40)
+        button_play = Button(80, 40)
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    done = True
+                    quit()
+                for box in input_boxes:
+                    box.handle_event(event)
+
+            for box in input_boxes:
+                box.update()
+
+            display.fill((30, 30, 30))
+            for box in input_boxes:
+                box.draw(display)
+            button.draw(10, 100, 'Назад в меню', m)
+            button_play.draw(100, 100, 'Играть', play)
+            print_text('Размер лабиринта', 240, 10, (60, 140, 190), font_size=30)
+            print_text('Количество цветов ', 240, 52, (60, 140, 190), font_size=30)
+            print_text('Количество цветов  показывает сколько', 10, 150, (60, 140, 190), font_size=20)
+            print_text('будет различных по цвету дверей в одном лабиринте', 10, 180, (60, 140, 190), font_size=20)
+            print_text('------------------------------------------------------', 10, 190, (250, 140, 200), font_size=30)
+            print_text('Размер лабиринта устанавливает размер игрового поля', 10, 220, (60, 140, 190), font_size=20)
+            print_text('Указывается в формате xy где x длинна ,а y высота', 10, 250, (60, 140, 190), font_size=20)
+            print_text('Пример - 64. Это создаст лабиринт 6 клеток в длинну и 4 в высоту', 10,  280, (60, 140, 190), font_size=20)
+            pygame.display.update()
+            pygame.display.flip()
+            clock.tick(30)
+
+
+class Background(pygame.sprite.Sprite):
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+
+
+
+def run_game():
+    global count
+    game = True
+    main = MainWindow()
+    pre = pre_game_setting()
+    help = Help()
+    settings = Settings()
+    profil = Profil()
+    agame = Agame()
+    pygame.mixer.music.play(-1)
+    while game:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        if Main_flag is True:
+            main.first_update()
+        elif Help_flag is True:
+            help.first_update()
+        elif Pre_game_flag is True:
+            pre.first_update()
+        elif Settings_flag is True:
+            settings.first_update()
+        elif profil_flag is True:
+            profil.first_update()
+        elif About_game_flag is True:
+            agame.first_update()
+
+
+run_game()
