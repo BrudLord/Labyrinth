@@ -83,7 +83,10 @@ class Pole(Pra_window):
                 pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i]], (x3 + (x2 - x3) // 2, y3 + (y2 - y3) // 2), (x2, y2), self.cell_size // 10)
         self.hero_sprites.draw(var.screen)
         self.all_doors.draw(var.screen)
-        print_text('Финиш', self.left + self.cell_size // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 100).render('Финиш', True, (60, 140, 190)).get_width() // 2, self.top + , font_color=(60, 140, 190), font_type='Marta_Decor_Two.ttf', font_size=20)
+        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render('Финиш', True, (60, 140, 190))
+        print_text('Финиш', self.left + self.cell_size // 2 - message.get_width() // 2, self.top + self.cell_size * self.height - self.cell_size // 5 - message.get_height() // 2, font_color=(255, 255, 255), font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
+        message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render('Старт', True, (60, 140, 190))
+        print_text('Старт', self.left + self.cell_size * self.width - self.cell_size // 2 - message.get_width() // 2, self.top + self.cell_size // 5 - message.get_height() // 2, font_color=(255, 255, 255), font_type='Marta_Decor_Two.ttf', font_size=32 + (9 - self.height) * 2)
         if self.hero.hero_way[-1][1] == 0 and self.hero.hero_way[-1][0] == self.height - 1:
             self.win = True
         self.hero_sprites.update(-2)
