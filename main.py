@@ -6,7 +6,9 @@ from Setting_in_game import *
 from Main_window import *
 import pygame
 from Music import *
+import copy
 from Help import *
+
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
@@ -31,58 +33,76 @@ def main():
     gate_pos = [-gate_reight.get_width() - 5, Variables.SCREEN_WIDTH + 1]
     pygame.mixer.music.play(-1)
     clock = pygame.time.Clock()
-    '''Я предлагаю основной цикл реализовать в этом файле, а при обновлении приложения вызывать соответствующие 
-    методы из каждого класса'''
     Variables.window = MainWindow()
     running = True
-    '''Чтобы реализовать полиморфизм и при этом не делать лишних перерисовок, окно настроек и полная отрисовка игрового
-    поля будет в этом методе, а частичное обновление игрового поля будет в методе update()'''
     Variables.window.first_update()
     while running:
         if Variables.GATES_MOVI == 0:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                '''Реализовать методы в классах, которые будут вызываться при различных событиях '''
-
                 if event.type == pygame.KEYDOWN:
-                    Variables.window.window_event(event.key)
-
+                    if var.set_in is None:
+                        Variables.window.window_event(event.key)
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        Variables.window.mouse_event(event.pos)
+                    if var.set_in is None:
+                        if event.button == 1:
+                            Variables.window.mouse_event(event.pos)
         if Variables.CHANGE_WINDOW:
             Variables.GATES_MOVI = 1
             Variables.FPS = 100
         if Variables.GATES_MOVI == 1:
-            if gate_pos[0] + 20 >= gate_standart_pos[1]:
+            if gate_pos[0] == gate_standart_pos[0]:
+                door()
+            if gate_pos[0] + 80 >= gate_standart_pos[1]:
                 gate_pos[0] += 5
                 gate_pos[1] -= 5
             else:
-                gate_pos[0] += 20
-                gate_pos[1] -= 20
+                gate_pos[0] += 17
+                gate_pos[1] -= 17
             if gate_pos[0] >= gate_standart_pos[1]:
                 gate_pos[0] = gate_standart_pos[1]
                 gate_pos[1] = gate_standart_pos[3]
                 change_window()
                 Variables.CHANGE_WINDOW = False
-                var.screen.blit(gate_left, (gate_pos[0], 0))
-                var.screen.blit(gate_reight, (gate_pos[1], 0))
+                try:
+                    var.screen.blit(gate_left, (gate_pos[0], 0))
+                    var.screen.blit(gate_reight, (gate_pos[1], 0))
+                except Exception:
+                    pass
                 pygame.display.flip()
                 pygame.time.delay(1000)
                 Variables.GATES_MOVI = -1
         elif Variables.GATES_MOVI == -1:
-            gate_pos[0] -= 25
-            gate_pos[1] += 25
+            if gate_pos[0] == gate_standart_pos[1]:
+                door()
+            if gate_pos[0] + 20 >= gate_standart_pos[1]:
+                gate_pos[0] -= 7
+                gate_pos[1] += 7
+            elif gate_pos[0] + 40 >= gate_standart_pos[1]:
+                gate_pos[0] -= 14
+                gate_pos[1] += 14
+            elif gate_pos[0] + 80 >= gate_standart_pos[1]:
+                gate_pos[0] -= 28
+                gate_pos[1] += 28
+            else:
+                gate_pos[0] -= 35
+                gate_pos[1] += 35
             if gate_pos[0] <= gate_standart_pos[0]:
                 gate_pos[0] = gate_standart_pos[0]
                 gate_pos[1] = gate_standart_pos[2]
                 Variables.GATES_MOVI = 0
                 Variables.FPS = 60
         if Variables.GATES_MOVI != 1:
-            Variables.window.update()
-        var.screen.blit(gate_left, (gate_pos[0], 0))
-        var.screen.blit(gate_reight, (gate_pos[1], 0))
+            if var.set_in is None:
+                Variables.window.update()
+            else:
+                Variables.set_in.update()
+        try:
+            var.screen.blit(gate_left, (gate_pos[0], 0))
+            var.screen.blit(gate_reight, (gate_pos[1], 0))
+        except Exception:
+            pass
         pygame.display.flip()
         clock.tick(Variables.FPS)
     pygame.quit()
@@ -99,8 +119,6 @@ def change_window():
         Variables.window = Pole([var.lab_w, var.lab_h], var.lab_col)
     elif Variables.name == 'Помощь':
         Variables.window = Help()
-    '''elif Variables.name == 'Игровое меню':
-        Variables.window = Pre_game_setting()'''
     Variables.window.first_update()
 
 

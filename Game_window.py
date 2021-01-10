@@ -1,14 +1,20 @@
 from Window import Pra_window
 import Variables as var
-from Setting_in_game import *
 import Pole_generate_algorithm as pga
+from  Setting_in_game import *
 from Path_algorithm import *
 import pygame
 import keyboard
 import sys
 import os
+import copy
 import math
 
+
+def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
+    font_type = pygame.font.Font(font_type, font_size)
+    text = font_type.render(message, True, font_color)
+    var.screen.blit(text, (x, y))
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
@@ -77,6 +83,7 @@ class Pole(Pra_window):
                 pygame.draw.line(var.screen, var.COLOR_VALUE[self.hero.colors_posled[i]], (x3 + (x2 - x3) // 2, y3 + (y2 - y3) // 2), (x2, y2), self.cell_size // 10)
         self.hero_sprites.draw(var.screen)
         self.all_doors.draw(var.screen)
+        print_text('Финиш', self.left + self.cell_size // 2 - pygame.font.Font('Marta_Decor_Two.ttf', 100).render('Финиш', True, (60, 140, 190)).get_width() // 2, self.top + , font_color=(60, 140, 190), font_type='Marta_Decor_Two.ttf', font_size=20)
         if self.hero.hero_way[-1][1] == 0 and self.hero.hero_way[-1][0] == self.height - 1:
             self.win = True
         self.hero_sprites.update(-2)
@@ -91,8 +98,8 @@ class Pole(Pra_window):
         if key_press == pygame.K_DOWN:
             self.hero_sprites.update(2)
         if key_press == pygame.K_ESCAPE:
-            # Переключение на экран настроек
-            Variables.window = Set_in_game()
+            var.set_in = Set_in_game()
+            var.set_in.first_update()
 
     def draw_cells(self):
         for i in range(len(self.board)):
@@ -277,7 +284,7 @@ class Hero(pygame.sprite.Sprite):
             self.print_win_text()
             pygame.display.flip()
             pygame.time.delay(1500)
-            var.name = 'Главное меню'
+            var.name = 'Предыгровое меню'
             var.CHANGE_WINDOW = True
 
     def print_win_text(self, font_color=(255, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=300):
