@@ -2,7 +2,9 @@ from Window import Pra_window
 import Variables as var
 from Setting_in_game import *
 import Pole_generate_algorithm as pga
+from Path_algorithm import *
 import pygame
+import keyboard
 import sys
 import os
 import math
@@ -28,15 +30,17 @@ class Pole(Pra_window):
     # size - размеры игрового поля (в клетках)
     def __init__(self, size, colors):
         super().__init__()
-        self.width = size[0]
         self.height = size[1]
+        self.width = size[0]
         self.cell_size = min([int((var.SCREEN_HEIGHT * 0.89) // self.height),
                               int(var.SCREEN_WIDTH // self.width)])
-        self.board, colors = pga.generate_pole(size, colors)
+        self.board, colors = pga.generate_random_pole(self.width, self.height, colors, var.lab_hard)
         self.left = (var.SCREEN_WIDTH - self.cell_size * self.width) // 2
         self.top = var.SCREEN_HEIGHT * 0.1
         self.colors = colors
+        keyboard.add_hotkey('h', self.hot_key_for_help)
         self.win = False
+        self.ways = find_way(self.board, self.colors, self.width - 1, 0, 0, self.height - 1)
 
     def first_update(self):
         var.screen.fill('black')
@@ -146,6 +150,30 @@ class Pole(Pra_window):
                         cell.rect.x = int(self.left + self.cell_size * j)
                         cell.rect.y = int(self.top + self.cell_size * i + self.cell_size / 5 * 2)
                     cell.image = pygame.transform.rotate(cell.image, alpha)
+
+    def hot_key_for_help(self):
+        if var.GATES_MOVI == 0 and self.hero.hero_way[-1] != [self.height - 1, 0] and var.podskazki:
+            hero_way = ''
+            for i in self.hero.hero_way:
+                hero_way += str(i[1]) + ',' + str(i[0]) + '-'
+            hero_way = hero_way[:-1]
+            way = ''
+            while hero_way not in way:
+                for way in self.ways:
+                    if hero_way in way:
+                        break
+                if hero_way not in way:
+                    hero_way = '-'.join(hero_way.split('-')[:-1])
+            way = way[:-2]
+            sled = way.split(hero_way)[1].split('-')[1][::-1].split(',')
+            hero_way = [int(h) for h in hero_way.split('-')[-1][::-1].split(',')]
+            self.hero.hero_way = self.hero.hero_way[:self.hero.hero_way.index(hero_way) + 1]
+            self.hero.colors_posled = self.hero.colors_posled[:self.hero.hero_way.index(hero_way) + 1]
+            if int(sled[0]) == self.hero.hero_way[-1][0]:
+                napr = self.hero.hero_way[-1][1] - int(sled[1]) + 2
+            else:
+                napr = -self.hero.hero_way[-1][0] + int(sled[0]) + 1
+            self.hero_sprites.update(napr)
 
 
 class Hero(pygame.sprite.Sprite):

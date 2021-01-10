@@ -10,8 +10,9 @@ COLOR_VALUE = {
     'r': 'red',
     'b': 'blue',
     'g': 'green',
-    'y': 'yellow',
-    'o': 'orange'
+    'o': 'orange',
+    't': 'turquoise',
+    'y': 'yellow'
 }
 CON = sqlite3.connect('data_base.db')
 CUR = CON.cursor()
@@ -22,3 +23,9 @@ FONT = pygame.font.Font(None, 32)
 name = 'Главное меню'
 CHANGE_WINDOW = False
 GATES_MOVI = 0 # -1 - открытие ворот, 0 - стоят, 1 - закрытие ворот
+podskazki = True
+FILENAME = 'pole/Pole3.txt'
+lab_hard = 2
+lab_w = 5
+lab_h = 5
+lab_col = 3

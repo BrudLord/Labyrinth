@@ -7,3 +7,6 @@ class Pra_window:
 
     def window_event(self, k):
         pass
+
+    def mouse_event(self, pos):
+        pass
