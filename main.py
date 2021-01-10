@@ -5,6 +5,7 @@ from Setting_window import *
 from Setting_befor_game_window import *
 from Setting_in_game import *
 from Main_window import *
+from Dilog_after_chel import *
 import pygame
 from Music import *
 import copy
@@ -123,6 +124,8 @@ def change_window():
         Variables.window = Help()
     elif Variables.name == 'Испытания':
         Variables.window = Pole([randint(7, 9), randint(7, 9)], randint(2, 6))
+    elif Variables.name == 'Установка результата':
+        Variables.window = Dilog()
     Variables.window.first_update()
 
 

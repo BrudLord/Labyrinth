@@ -303,6 +303,8 @@ class Hero(pygame.sprite.Sprite):
             if not var.Chellenge:
                 var.name = 'Предыгровое меню'
                 var.CHANGE_WINDOW = True
+                var.sum_time = 0
+                var.time_for_ur = 0
             else:
                 var.kol_chel += 1
                 var.sum_time += var.time_for_ur
@@ -313,7 +315,7 @@ class Hero(pygame.sprite.Sprite):
                     var.CHANGE_WINDOW = True
                 else:
                     var.Chellenge = False
-                    var.name = 'Главное меню'
+                    var.name = 'Установка результата'
                     var.CHANGE_WINDOW = True
 
 

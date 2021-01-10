@@ -64,6 +64,8 @@ class Button:
                     var.set_in = None
                     var.name = 'Предыгровое меню'
                     var.CHANGE_WINDOW = True
+                    var.sum_time = 0
+                    var.time_for_ur = 0
                 if text == 'Продолжить':
                     var.set_in = None
         else:
