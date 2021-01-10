@@ -1,3 +1,4 @@
+from random import  randint
 import Variables
 from Game_window import *
 from Setting_window import *
@@ -7,6 +8,7 @@ from Main_window import *
 import pygame
 from Music import *
 import copy
+import time
 from Help import *
 
 
@@ -119,6 +121,8 @@ def change_window():
         Variables.window = Pole([var.lab_w, var.lab_h], var.lab_col)
     elif Variables.name == 'Помощь':
         Variables.window = Help()
+    elif Variables.name == 'Испытания':
+        Variables.window = Pole([randint(7, 9), randint(7, 9)], randint(2, 6))
     Variables.window.first_update()
 
 
