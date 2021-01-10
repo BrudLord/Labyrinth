@@ -72,7 +72,7 @@ class InputBox:
                 self.text = self.text[:-1]
             else:
                 if self.name == 'Имя':
-                    if len(self.text) < 8:
+                    if len(self.text) < 8 and pygame.key.name(k).isalnum() and len(pygame.key.name(k)) == 1:
                         self.text += pygame.key.name(k)
             self.txt_surface = var.FONT.render(self.text, True, self.color)
             global name
