@@ -28,6 +28,7 @@ class Rating(Pra_window):
         self.update()
 
     def update(self):
+        # Загрузка бд
         var.screen.fill((30, 30, 30))
         con = sqlite3.connect('data_base.db')
         cur = con.cursor()

@@ -14,6 +14,7 @@ from Rating import *
 
 
 def load_image(name, colorkey=None):
+    # Загрузка изображения
     fullname = os.path.join('data', name)
     # если файл не существует, то выходим
     if not os.path.isfile(fullname):
@@ -28,6 +29,7 @@ def main():
     Variables.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     Variables.SCREEN_SIZE = Variables.SCREEN_HEIGHT, Variables.SCREEN_WIDTH = [Variables.screen.get_height(),
                                                                                Variables.screen.get_width()]
+    # Створки ворот
     gate_left = load_image('Gate_left.png')
     gate_left = pygame.transform.scale(gate_left, (Variables.SCREEN_WIDTH // 2, Variables.SCREEN_HEIGHT))
     gate_reight = load_image('Gate_reight.png')
@@ -39,11 +41,13 @@ def main():
     gate_pos = [-gate_reight.get_width() - 5, Variables.SCREEN_WIDTH + 1]
     pygame.mixer.music.play(-1)
     clock = pygame.time.Clock()
+    # Создаём начальное окно
     Variables.window = MainWindow()
     running = True
     Variables.window.first_update()
     while running:
         if Variables.GATES_MOVI == 0:
+            # Основные события
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -54,9 +58,11 @@ def main():
                     if var.set_in is None:
                         if event.button == 1:
                             Variables.window.mouse_event(event.pos)
+        # Если изменяем окно
         if Variables.CHANGE_WINDOW:
             Variables.GATES_MOVI = 1
             Variables.FPS = 100
+        # Движение ворот к центру
         if Variables.GATES_MOVI == 1:
             if gate_pos[0] == gate_standart_pos[0]:
                 door()
@@ -79,6 +85,7 @@ def main():
                 pygame.display.flip()
                 pygame.time.delay(1000)
                 Variables.GATES_MOVI = -1
+        # Открытие ворот
         elif Variables.GATES_MOVI == -1:
             if gate_pos[0] == gate_standart_pos[1]:
                 door()
@@ -100,11 +107,13 @@ def main():
                 Variables.GATES_MOVI = 0
                 Variables.FPS = 60
         if Variables.GATES_MOVI != 1:
+            # Проверка на паузу
             if var.set_in is None:
                 Variables.window.update()
             else:
                 Variables.set_in.update()
         try:
+            # Отрисовка ворот
             var.screen.blit(gate_left, (gate_pos[0], 0))
             var.screen.blit(gate_reight, (gate_pos[1], 0))
         except Exception:
@@ -115,6 +124,7 @@ def main():
 
 
 def change_window():
+    # Смена окна
     if Variables.name == 'Главное меню':
         Variables.window = MainWindow()
     elif Variables.name == 'Настройки':

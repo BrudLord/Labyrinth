@@ -27,6 +27,7 @@ class Help(Pra_window):
         self.update()
 
     def update(self):
+        # Вывод текста
         var.screen.fill((30, 30, 30))
         print_text('Цель игры - вам необходимо как можно быстрее добраться до финиша', 10, 30, (60, 140, 190),
                    font_size=30)
@@ -71,6 +72,7 @@ class Button:
         self.active_color = (9, 190, 150)
 
     def draw(self, x, y, text, action=None):
+        # Проверка на нажатие
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if x < mouse[0] < x + self.width and y < mouse[1] < y + self.height:

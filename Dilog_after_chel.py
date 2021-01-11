@@ -27,23 +27,27 @@ class Dilog(Pra_window):
         super().__init__()
 
     def first_update(self):
+        # Первое обновление
         self.input_box1 = InputBox(var.SCREEN_WIDTH // 2, var.SCREEN_HEIGHT // 64 * 30, 140, 32, 'Имя')
         self.input_boxes = [self.input_box1]
         self.button = Button(200, 50)
         self.button_play = Button(200, 50)
 
     def update(self):
+        # Обновления в игре
         for box in self.input_boxes:
             box.update()
         var.screen.fill((30, 30, 30))
         for box in self.input_boxes:
             box.draw(var.screen)
+        # Кнопки на экране
         self.button.draw(40, var.SCREEN_HEIGHT - 40 - self.button.height, 'Выйти')
         self.button_play.draw(var.SCREEN_WIDTH - 40 - self.button_play.width,
                               var.SCREEN_HEIGHT - 40 - self.button_play.height, 'Сохранить')
         print_text('Имя', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 30, (60, 140, 190), font_size=30)
 
     def window_event(self, k):
+        # Отслеживание нажатий клавиатуры
         for box in self.input_boxes:
             box.handle_event(k)
 
@@ -111,11 +115,12 @@ class Button:
                 if click[0] == 1:
                     pygame.mixer.Sound.play(button_sound)
                     pygame.time.delay(150)
-                    # Смена окна
+                    # Смена окна при нажатии кнопки
                     if text == 'Выйти':
                         var.name = 'Главное меню'
                         var.CHANGE_WINDOW = True
                     elif text == 'Сохранить':
+                        # Работа с бд
                         con = sqlite3.connect('data_base.db')
                         cur = con.cursor()
                         cur.execute("""INSERT INTO Records(Name, Time) VALUES(?, ?)""", (name, round(var.sum_time, 3)))

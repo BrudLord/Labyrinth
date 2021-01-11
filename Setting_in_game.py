@@ -33,6 +33,7 @@ class Set_in_game(Pra_window):
         super().__init__()
 
     def first_update(self):
+        # Загрузка фона и создание кнопок
         im = load_image('zatemnenie.png')
         self.im = pygame.transform.scale(im, var.SCREEN_SIZE[::-1])
         self.button = Button(200, 50)

@@ -36,6 +36,7 @@ class Pole(Pra_window):
     # size - размеры игрового поля (в клетках)
     def __init__(self, size, colors):
         super().__init__()
+        # Базовые параметра
         self.height = size[1]
         self.width = size[0]
         self.cell_size = min([int((var.SCREEN_HEIGHT * 0.89) // self.height),
@@ -53,6 +54,7 @@ class Pole(Pra_window):
             self.ways = find_way(self.board, self.colors, self.width - 1, 0, 0, self.height - 1)
 
     def first_update(self):
+        # Первоначальное обновление
         var.screen.fill('black')
         self.all_cells_sprites = pygame.sprite.Group()
         self.all_doors = pygame.sprite.Group()
@@ -66,12 +68,14 @@ class Pole(Pra_window):
         self.all_doors.draw(var.screen)
 
     def update(self):
+        # Засекаем время
         if var.start_time == 0:
             var.start_time = time.time()
         var.time_for_ur = time.time() - var.start_time
         var.screen.fill('black')
         self.hero_sprites.update(-1)
         self.all_cells_sprites.draw(var.screen)
+        # Отрисовка линии пути
         for i in range(1, len(self.hero.hero_way)):
             x1 = self.left + self.hero.hero_way[i - 1][1] * self.cell_size + self.cell_size // 2
             y1 = self.top + self.hero.hero_way[i - 1][0] * self.cell_size + self.cell_size // 2
@@ -95,6 +99,7 @@ class Pole(Pra_window):
                                  (x3 + (x2 - x3) // 2, y3 + (y2 - y3) // 2), (x2, y2), self.cell_size // 10)
         self.hero_sprites.draw(var.screen)
         self.all_doors.draw(var.screen)
+        # Надписи Старт и Финиш
         message = pygame.font.Font('Marta_Decor_Two.ttf', 32 + (9 - self.height) * 2).render('Финиш', True,
                                                                                              (60, 140, 190))
         print_text('Финиш', self.left + self.cell_size // 2 - message.get_width() // 2,
@@ -114,6 +119,7 @@ class Pole(Pra_window):
         self.hero_sprites.update(-2)
 
     def window_event(self, key_press):
+        # Реакция на нажатие клавиш
         if key_press == pygame.K_LEFT:
             self.hero_sprites.update(3)
         if key_press == pygame.K_RIGHT:
@@ -129,6 +135,7 @@ class Pole(Pra_window):
             var.set_in.first_update()
 
     def draw_cells(self):
+        # Отрисовка клеток поля
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
                 name = ''
@@ -151,6 +158,7 @@ class Pole(Pra_window):
                 cell.image = pygame.transform.rotate(cell.image, alpha)
 
     def draw_doors(self):
+        # Отрисовка Дверей
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
                 for k in range(len(self.board[i][j])):
@@ -186,6 +194,7 @@ class Pole(Pra_window):
                     cell.image = pygame.transform.rotate(cell.image, alpha)
 
     def hot_key_for_help(self):
+        # Вызов подсказки
         if var.GATES_MOVI == 0 and self.hero.hero_way[-1] != [self.height - 1,
                                                               0] and var.podskazki and not var.Chellenge:
             hero_way = ''
@@ -236,6 +245,7 @@ class Hero(pygame.sprite.Sprite):
 
     def update(self, napr):
         if napr >= -1 or self.travel:
+            # Если герой перемещается
             if self.travel:
                 if not self.nazad:
                     self.rect.y += (self.hero_way[-1][0] - self.hero_way[-2][0]) * self.height // self.del_put
@@ -264,6 +274,7 @@ class Hero(pygame.sprite.Sprite):
                         self.nazad = False
             elif napr == -1:
                 return
+            # Если нет перемещения
             elif not self.travel:
                 self.travel = True
                 if napr % 2 == 0:
@@ -314,6 +325,7 @@ class Hero(pygame.sprite.Sprite):
             self.check_for_win()
 
     def check_for_win(self):
+        # Проверка на победу
         if self.hero_way[-1] == [self.size[0] - 1, 0]:
             self.print_win_text()
             pygame.display.flip()
@@ -338,6 +350,7 @@ class Hero(pygame.sprite.Sprite):
                     var.CHANGE_WINDOW = True
 
     def print_win_text(self, font_color=(255, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=300):
+        # Вывести текст победы
         im = load_image('zatemnenie.png')
         im = pygame.transform.scale(im, var.SCREEN_SIZE[::-1])
         var.screen.blit(im, (0, 0))
