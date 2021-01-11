@@ -1,10 +1,8 @@
 from Window import Pra_window
 import Variables as var
 import pygame
-import sys
 from Music import *
 import os
-import copy
 
 
 def print_text(message, x, y, font_color=(60, 140, 190), font_type='Marta_Decor_Two.ttf', font_size=20):

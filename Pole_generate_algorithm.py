@@ -1,4 +1,3 @@
-import Variables as var
 import random
 
 
