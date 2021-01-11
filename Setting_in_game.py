@@ -67,7 +67,7 @@ class Button:
                 pygame.time.delay(150)
                 if text == 'Назад в меню':
                     var.set_in = None
-                    var.name = 'Предыгровое меню'
+                    var.name = 'Главное меню'
                     var.CHANGE_WINDOW = True
                     var.sum_time = 0
                     var.time_for_ur = 0
