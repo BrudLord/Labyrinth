@@ -23,6 +23,7 @@ class Pre_game_setting(Pra_window):
         super().__init__()
 
     def first_update(self):
+        # Создание input_box и кнопок
         self.input_box1 = InputBox(var.SCREEN_WIDTH // 2, var.SCREEN_HEIGHT // 64 * 10, 140, 32, 'Размер лабиринта')
         self.input_box2 = InputBox(var.SCREEN_WIDTH // 2, var.SCREEN_HEIGHT // 64 * 15, 140, 32,
                                    'Количество цветов дверей')
@@ -40,6 +41,7 @@ class Pre_game_setting(Pra_window):
         self.button.draw(40, var.SCREEN_HEIGHT - 40 - self.button.height, 'Назад в меню')
         self.button_play.draw(var.SCREEN_WIDTH - 40 - self.button_play.width,
                               var.SCREEN_HEIGHT - 40 - self.button_play.height, 'Играть')
+        # Выводим текст
         print_text('Размер лабиринта', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 10, (60, 140, 190),
                    font_size=30)
         print_text('Количество цветов дверей', var.SCREEN_WIDTH // 2 + 10, var.SCREEN_HEIGHT // 64 * 15 + 2,
@@ -94,6 +96,7 @@ class InputBox:
         self.text = ''
         self.name = name
         self.active = False
+        # Задание базовых значений
         if self.name == 'Размер лабиринта':
             var.lab_h = 5
             var.lab_w = 5
@@ -114,6 +117,7 @@ class InputBox:
                 self.text = self.text[:-1]
             else:
                 if pygame.key.name(k).isdigit():
+                    # Обновление значений
                     if self.name == 'Размер лабиринта':
                         if int(pygame.key.name(k)) > 2 and int(pygame.key.name(k)) < 10 and len(self.text) < 2:
                             self.text += pygame.key.name(k)

@@ -57,6 +57,7 @@ class Button:
             if click[0] == 1:
                 pygame.mixer.Sound.play(button_sound)
                 pygame.time.delay(150)
+                # Действия в зависимости от нажатой кнопки
                 if text == 'Назад в меню':
                     var.name = 'Главное меню'
                     var.CHANGE_WINDOW = True

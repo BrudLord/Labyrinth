@@ -1,4 +1,5 @@
 class Pra_window:
+    # Предок всех окон
     def __init__(self):
         pass
 

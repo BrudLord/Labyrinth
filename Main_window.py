@@ -27,7 +27,7 @@ class MainWindow(Pra_window):
             count = 0
         else:
             count += 1
-
+        # Создаём кнопки
         self.button = Button(*self.standart_button_size)
         self.button2 = Button(*self.standart_button_size)
         self.button3 = Button(*self.standart_button_size)
@@ -75,6 +75,7 @@ class Button:
             if click[0] == 1:
                 pygame.mixer.Sound.play(button_sound)
                 pygame.time.delay(150)
+                # Смена окна
                 if text == 'Играть':
                     var.name = 'Предыгровое меню'
                     var.CHANGE_WINDOW = True

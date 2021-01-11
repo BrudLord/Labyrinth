@@ -4,6 +4,7 @@ next_visit = []
 
 
 def find_way(pole, posled, x1, y1, x2, y2):
+    # Шлавный цикл для нахождения пути
     way = []
     for i in pole:
         way.append([])
@@ -17,6 +18,7 @@ def find_way(pole, posled, x1, y1, x2, y2):
 
 
 def waves(pole, way, posled):
+    # функция, вызываемая рекурсивно
     time.sleep(0)
     global next_visit
     k = next_visit[0]
@@ -70,6 +72,7 @@ def waves(pole, way, posled):
 
 
 def next_col(posl, ind):
+    # Следующий цвет
     ind = posl.index(ind)
     ind += 1
     if ind >= len(posl):
