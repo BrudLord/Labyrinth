@@ -8,7 +8,6 @@ from Main_window import *
 from Dilog_after_chel import *
 import pygame
 from Music import *
-import copy
 import time
 from Help import *
 from Rating import *

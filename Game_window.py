@@ -5,11 +5,8 @@ from Setting_in_game import *
 from Path_algorithm import *
 import pygame
 import keyboard
-import sys
 from random import randint
 import os
-import copy
-import math
 
 
 def print_text(message, x, y, font_color=(0, 0, 0), font_type='Marta_Decor_Two.ttf', font_size=20):
