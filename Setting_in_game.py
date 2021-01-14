@@ -69,6 +69,7 @@ class Button:
                     var.set_in = None
                     var.name = 'Главное меню'
                     var.CHANGE_WINDOW = True
+                    var.Chellenge = False
                     var.sum_time = 0
                     var.time_for_ur = 0
                 if text == 'Продолжить':

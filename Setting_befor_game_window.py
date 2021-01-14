@@ -124,22 +124,29 @@ class InputBox:
                             if len(self.text) == 2:
                                 var.lab_h = int(self.text[0])
                                 var.lab_w = int(self.text[1])
-                            elif len(self.text) == 1:
-                                var.lab_w = None
                     elif self.name == 'Количество цветов дверей':
                         if int(pygame.key.name(k)) > 1 and int(pygame.key.name(k)) < 7 and len(self.text) < 1:
                             self.text += pygame.key.name(k)
                             var.lab_col = int(self.text)
-                        elif len(self.text) == 0:
+                        if len(self.text) == 0:
                             var.lab_col = None
                     elif self.name == 'Сложность':
                         if int(pygame.key.name(k)) > 0 and int(pygame.key.name(k)) < 3 and len(self.text) < 1:
                             self.text += pygame.key.name(k)
                             var.lab_hard = int(self.text)
-                        elif len(self.text) == 0:
+                        if len(self.text) == 0:
                             var.lab_hard = None
                             # Re-render the text.
             self.txt_surface = var.FONT.render(self.text, True, self.color)
+            if self.name == 'Размер лабиринта':
+                if len(self.text) != 2:
+                    var.lab_w = None
+            elif self.name == 'Количество цветов дверей':
+                if len(self.text) == 0:
+                    var.lab_col = None
+            elif self.name == 'Сложность':
+                if len(self.text) == 0:
+                    var.lab_hard = None
 
     def update(self):
         # Resize the box if the text is too long.
@@ -174,7 +181,8 @@ class Button:
                     if text == 'Назад в меню':
                         var.name = 'Главное меню'
                         var.CHANGE_WINDOW = True
-                    elif text == 'Играть':
+                    elif (text == 'Играть' and not var.lab_col is None and
+                          not var.lab_w is None and not var.lab_hard is None):
                         var.name = 'Игра'
                         var.CHANGE_WINDOW = True
             else:
