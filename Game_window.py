@@ -50,7 +50,10 @@ class Pole(Pra_window):
         self.colors = colors
         keyboard.add_hotkey('h', self.hot_key_for_help)
         self.win = False
-        self.ways = find_way(self.board, self.colors, self.width - 1, 0, 0, self.height - 1)
+        try:
+            self.ways = find_way(self.board, self.colors, self.width - 1, 0, 0, self.height - 1)
+        except Exception:
+            self.ways = []
 
     def first_update(self):
         # Первоначальное обновление
